@@ -21,7 +21,7 @@
         }
 
         header {
-            background: linear-gradient(135deg, #3BB2D4 0%, #42E695 100%);
+            background: linear-gradient(135deg, #004EC9 0%, #00C988 100%);
             color: white;
             padding: 20px 0;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -106,7 +106,7 @@
         }
 
         footer {
-            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            background: linear-gradient(135deg, #00C988 0%, #004EC9 100%);
             color: white;
             padding: 40px 0 20px;
             margin-top: 60px;
@@ -242,19 +242,19 @@
         <nav>
             <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
             <div class="nav-left">
-                <a href="/" class="{% if request.path == '/' %}active{% endif %}">🏠 Главная</a>
-                <a href="/services" class="{% if request.path == '/services' %}active{% endif %}">📊 Услуги</a>
-                <a href="/pricing" class="{% if request.path == '/pricing' %}active{% endif %}">💰 Цены</a>
-                <a href="/about" class="{% if request.path == '/about' %}active{% endif %}">👥 О нас</a>
-                <a href="/consultation" class="{% if request.path == '/consultation' %}active{% endif %}">📋 Заявка</a>
+                <a href="/" class="{% if request.path == '/' %}active{% endif %}">Главная</a>
+                <a href="/services" class="{% if request.path == '/services' %}active{% endif %}">Услуги</a>
+                <a href="/pricing" class="{% if request.path == '/pricing' %}active{% endif %}">Цены</a>
+                <a href="/about" class="{% if request.path == '/about' %}active{% endif %}">О нас</a>
+                <a href="/consultation" class="{% if request.path == '/consultation' %}active{% endif %}">Заявка</a>
             </div>
             <div class="nav-right">
                 {% if session.user %}
-                <a href="/admin" class="{% if request.path == '/admin' %}active{% endif %}">🔧 Админ</a>
-                <a href="/admin/clients" class="{% if request.path == '/admin/clients' %}active{% endif %}">👥 Клиенты</a>
-                <a href="/logout">🚪 Выход</a>
+                <a href="/admin" class="{% if request.path == '/admin' %}active{% endif %}">Админ</a>
+                <a href="/admin/clients" class="{% if request.path == '/admin/clients' %}active{% endif %}">Клиенты</a>
+                <a href="/logout">Выход</a>
                 {% else %}
-                <a href="/login" class="{% if request.path == '/login' %}active{% endif %}">🔑 Вход</a>
+                <a href="/login" class="{% if request.path == '/login' %}active{% endif %}">Вход</a>
                 {% endif %}
             </div>
         </nav>
@@ -276,19 +276,18 @@
         <div class="footer-content">
             <div class="footer-section">
                 <h3>Наши услуги</h3>
-                <a href="/services#bookkeeping">Ведение бухгалтерии</a>
-                <a href="/services#tax_consulting">Налоговое консультирование</a>
-                <a href="/services#reporting">Сдача отчетности</a>
-                <a href="/services#audit">Аудит</a>
-                <a href="/services#audit">Регистрация бизнеса</a>
-                <a href="/services#audit">Расчет заработной платы</a>
+                <a href="/services">Ведение бухгалтерии</a>
+                <a href="/services">Налоговое консультирование</a>
+                <a href="/services">Сдача отчетности</a>
+                <a href="/services">Аудит</a>
+                <a href="/services">Регистрация бизнеса</a>
+                <a href="/services">Расчет заработной платы</a>
             </div>
             <div class="footer-section">
                 <h3>Компания</h3>
                 <a href="/about">О нас</a>
                 <a href="/pricing">Цены</a>
                 <a href="/consultation">Консультация</a>
-                <a href="/contact">Контакты</a>
             </div>
             <div class="footer-section">
                 <h3>Контакты</h3>
