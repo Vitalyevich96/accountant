@@ -10,7 +10,7 @@ app.secret_key = 'your-secret-key-change-this-in-production'
 
 DATA_FOLDER = 'data'
 ADMIN_LOGIN = 'admin'
-ADMIN_PASSWORD = 'admin'
+ADMIN_PASSWORD = 'admin1802'
 
 # Конфигурация услуг
 SERVICES = {
