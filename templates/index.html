@@ -5,7 +5,7 @@
 {% block extra_css %}
 <style>
     .hero {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #3C0287 0%, #005E5E 100%);
         color: white;
         padding: 80px 20px;
         border-radius: 10px;
@@ -181,49 +181,25 @@
                 left: 0;
             }
 
-    .stats-bar {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 60px 0;
-        border-radius: 15px;
-        margin: 60px 0;
-    }
 
-    .stats-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 30px;
-        text-align: center;
-    }
-
-    .stat-item h3 {
-        font-size: 2.5em;
-        margin-bottom: 10px;
-        font-weight: bold;
-    }
-
-    .stat-item p {
-        opacity: 0.9;
-        font-size: 1.1em;
-    }
 
     .cta-section {
         text-align: center;
         padding: 80px 40px;
-        background: white;
+        background: linear-gradient(135deg, #005E5E 0%, #3C0287 100%);
         border-radius: 15px;
         box-shadow: 0 5px 25px rgba(0,0,0,0.1);
         margin: 60px 0;
     }
 
         .cta-section h2 {
-            color: #333;
+            color: white;
             margin-bottom: 20px;
             font-size: 2.2em;
         }
 
         .cta-section p {
-            color: #666;
+            color: white;
             font-size: 1.2em;
             margin-bottom: 30px;
             max-width: 600px;
@@ -345,29 +321,7 @@
     </div>
 </section>
 
-<!-- Статистика -->
-<section class="stats-bar">
-    <div class="container">
-        <div class="stats-container">
-            <div class="stat-item">
-                <h3>10+</h3>
-                <p>Лет на рынке</p>
-            </div>
-            <div class="stat-item">
-                <h3>500+</h3>
-                <p>Довольных клиентов</p>
-            </div>
-            <div class="stat-item">
-                <h3>15 000+</h3>
-                <p>Сданных отчетов</p>
-            </div>
-            <div class="stat-item">
-                <h3>99%</h3>
-                <p>Успешных проверок</p>
-            </div>
-        </div>
-    </div>
-</section>
+
 
 <!-- Призыв к действию -->
 <section class="cta-section">
@@ -378,6 +332,7 @@
             <a href="/consultation" class="btn">Оставить заявку</a>
             <a href="/pricing" class="btn btn-secondary">Посмотреть цены</a>
         </div>
+        <p>Сегодня — лучший день доверить бухгалтерию профессионалам. Мы возьмём на себя все заботы, чтобы вы работали спокойно и уверенно. С нами бухгалтерия — это порядок и уверенность без лишних волнений.</p>
     </div>
 </section>
 {% endblock %}
