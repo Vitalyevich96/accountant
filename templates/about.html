@@ -1,0 +1,671 @@
+{% extends "base.html" %}
+
+{% block title %}О компании - Профессиональный бухгалтер{% endblock %}
+
+{% block extra_css %}
+<style>
+    .about-hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 80px 20px;
+        text-align: center;
+        border-radius: 15px;
+        margin-bottom: 50px;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .about-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="%23ffffff" opacity="0.1"><polygon points="1000,100 1000,0 0,100"/></svg>');
+            background-size: cover;
+        }
+
+    .about-hero-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .about-hero h1 {
+        font-size: 3em;
+        margin-bottom: 20px;
+        font-weight: 700;
+    }
+
+    .about-hero p {
+        font-size: 1.3em;
+        max-width: 700px;
+        margin: 0 auto;
+        opacity: 0.95;
+        line-height: 1.6;
+    }
+
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 30px;
+        margin: 60px 0;
+    }
+
+    .stat-item {
+        text-align: center;
+        padding: 40px 30px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-top: 4px solid #667eea;
+    }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .stat-item .number {
+            font-size: 3em;
+            font-weight: bold;
+            color: #667eea;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .stat-item .label {
+            color: #666;
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+
+    .mission-section {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        padding: 80px 0;
+        border-radius: 15px;
+        margin: 60px 0;
+    }
+
+    .mission-content {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+        .mission-content h2 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        .mission-content p {
+            font-size: 1.2em;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+    .values {
+        background: #f8f9fa;
+        padding: 80px 0;
+        border-radius: 15px;
+        margin: 60px 0;
+    }
+
+        .values h2 {
+            text-align: center;
+            margin-bottom: 50px;
+            color: #333;
+            font-size: 2.5em;
+        }
+
+    .values-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 40px;
+    }
+
+    .value-item {
+        text-align: center;
+        padding: 40px 30px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        transition: transform 0.3s ease;
+    }
+
+        .value-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .value-item .icon {
+            font-size: 3.5em;
+            margin-bottom: 25px;
+            display: block;
+        }
+
+        .value-item h4 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 1.4em;
+            font-weight: 600;
+        }
+
+        .value-item p {
+            color: #666;
+            line-height: 1.7;
+            font-size: 1.1em;
+        }
+
+    .team-section {
+        margin: 80px 0;
+    }
+
+        .team-section h2 {
+            text-align: center;
+            margin-bottom: 50px;
+            color: #333;
+            font-size: 2.5em;
+        }
+
+    .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 40px;
+        margin-top: 40px;
+    }
+
+    .team-member {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        overflow: hidden;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+
+    .team-member-avatar {
+        height: 200px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 4em;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .team-member-avatar::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: -10px;
+            right: -10px;
+            height: 20px;
+            background: inherit;
+            filter: blur(10px);
+            opacity: 0.3;
+        }
+
+    .team-member .info {
+        padding: 30px 25px;
+    }
+
+    .team-member h4 {
+        margin: 0 0 10px 0;
+        color: #333;
+        font-size: 1.3em;
+        font-weight: 600;
+    }
+
+    .team-member .position {
+        color: #667eea;
+        font-weight: bold;
+        margin-bottom: 15px;
+        font-size: 1.1em;
+    }
+
+    .team-member p {
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 0;
+    }
+
+    .certificates {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 80px 0;
+        border-radius: 15px;
+        margin: 60px 0;
+        text-align: center;
+    }
+
+        .certificates h2 {
+            margin-bottom: 50px;
+            font-size: 2.5em;
+        }
+
+    .certificates-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .certificate-item {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 30px;
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+        .certificate-item .icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .certificate-item h4 {
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+    .cta-section {
+        text-align: center;
+        padding: 80px 40px;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        margin: 80px 0 40px;
+    }
+
+        .cta-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+
+        .cta-section p {
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+    .btn-large {
+        display: inline-block;
+        padding: 18px 50px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: bold;
+        font-size: 1.2em;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        border: none;
+        cursor: pointer;
+    }
+
+        .btn-large:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.6);
+            color: white;
+        }
+
+    /* Анимации */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .fade-in {
+        animation: fadeInUp 0.8s ease-out;
+    }
+
+    .stat-item,
+    .value-item,
+    .team-member,
+    .certificate-item {
+        animation: fadeInUp 0.8s ease-out;
+    }
+
+        .stat-item:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .stat-item:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .stat-item:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .stat-item:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .value-item:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .value-item:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .value-item:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .value-item:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .value-item:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        .value-item:nth-child(6) {
+            animation-delay: 0.6s;
+        }
+
+        .team-member:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .team-member:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .team-member:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .team-member:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+    @media (max-width: 768px) {
+        .about-hero h1 {
+            font-size: 2.2em;
+        }
+
+        .about-hero p {
+            font-size: 1.1em;
+        }
+
+        .stats {
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-item {
+            padding: 30px 20px;
+        }
+
+            .stat-item .number {
+                font-size: 2.5em;
+            }
+
+        .team-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .values-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .certificates-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .mission-content h2,
+        .values h2,
+        .team-section h2,
+        .certificates h2,
+        .cta-section h2 {
+            font-size: 2em;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .about-hero {
+            padding: 60px 20px;
+        }
+
+            .about-hero h1 {
+                font-size: 1.8em;
+            }
+
+        .btn-large {
+            padding: 15px 40px;
+            font-size: 1.1em;
+        }
+
+        .mission-section,
+        .values,
+        .certificates {
+            padding: 60px 0;
+        }
+
+        .cta-section {
+            padding: 60px 20px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Герой секция -->
+<section class="about-hero">
+    <div class="about-hero-content">
+        <h1>О нашей компании</h1>
+        <p>Профессиональные бухгалтерские услуги для бизнеса. Более 15 лет успешной работы на рынке бухгалтерских услуг.</p>
+        <p>+7 (701) 362-32-63</p>
+        <p>juliagusseva@mail.ru</p>
+    </div>
+</section>
+
+<!-- Статистика -->
+<section class="stats">
+    <div class="stat-item">
+        <span class="number">15+</span>
+        <span class="label">Лет успешной работы</span>
+    </div>
+    <div class="stat-item">
+        <span class="number">100+</span>
+        <span class="label">Довольных клиентов</span>
+    </div>
+    <div class="stat-item">
+        <span class="number">15,000+</span>
+        <span class="label">Сданных отчетов</span>
+    </div>
+    <div class="stat-item">
+        <span class="number">95%</span>
+        <span class="label">Успешных проверок</span>
+    </div>
+</section>
+
+<!-- Миссия компании -->
+<section class="mission-section">
+    <div class="container">
+        <div class="mission-content">
+            <h2>Моя миссия</h2>
+            <p>Я помогаю бизнесу сосредоточиться на развитии, взяв на себя все вопросы бухгалтерского и налогового учета. Моя цель — сделать ведение бухгалтерии простым, понятным и эффективным для каждого клиента.</p>
+            <p>С 2005 года я предоставляю профессиональные бухгалтерские услуги, сочетая многолетний опыт с современными технологиями для достижения наилучших результатов.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Ценности -->
+<section class="values">
+    <div class="container">
+        <h2>Наши ценности</h2>
+        <div class="values-grid">
+            <div class="value-item">
+                <span class="icon">🎯</span>
+                <h4>Профессионализм</h4>
+                <p>Моя команда состоит из сертифицированных специалистов с многолетним опытом работы в различных отраслях бизнеса.</p>
+            </div>
+            <div class="value-item">
+                <span class="icon">⚡</span>
+                <h4>Оперативность</h4>
+                <p>Соблюдение сроков сдачи отчетности и быстрая реакция на изменения в законодательстве — наш приоритет.</p>
+            </div>
+            <div class="value-item">
+                <span class="icon">🔒</span>
+                <h4>Конфиденциальность</h4>
+                <p>Полная защита коммерческой информации клиентов с использованием современных средств шифрования данных.</p>
+            </div>
+            <div class="value-item">
+                <span class="icon">💡</span>
+                <h4>Инновации</h4>
+                <p>Используем передовые технологии и программное обеспечение для эффективной и точной работы.</p>
+            </div>
+            <div class="value-item">
+                <span class="icon">🤝</span>
+                <h4>Партнерство</h4>
+                <p>Строим долгосрочные отношения с клиентами, становясь надежным партнером в развитии их бизнеса.</p>
+            </div>
+            <div class="value-item">
+                <span class="icon">📊</span>
+                <h4>Прозрачность</h4>
+                <p>Четкое ценообразование и открытая отчетность о проделанной работе для каждого клиента.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Команда -->
+<section class="team-section">
+    <div class="container">
+        <h2>Наша команда</h2>
+        <div class="team-grid">
+            <div class="team-member">
+                <div class="team-member-avatar">
+                    👩‍💼
+                </div>
+                <div class="info">
+                    <h4>Юлия</h4>
+                    <div class="position">Главный бухгалтер</div>
+                    <p>Опыт работы более 15 лет. Эксперт в области налогообложения и финансового анализа. Сертифицированный профессиональный бухгалтер.</p>
+                </div>
+            </div>
+            <div class="team-member">
+                <div class="team-member-avatar">
+                    👩‍💼
+                </div>
+                <div class="info">
+                    <h4>Анна</h4>
+                    <div class="position">Помощник бухгалтера</div>
+                    <p>Специализируется на ведении учета для малого и среднего бизнеса. Опыт работы 2 года.</p>
+                </div>
+            </div>
+            <div class="team-member">
+                <div class="team-member-avatar">
+                    👨‍💻
+                </div>
+                <div class="info">
+                    <h4>Александр</h4>
+                    <div class="position">IT специалист</div>
+                    <p>Эксперт по програмному обеспечению. Опыт работы 5 лет.</p>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+<!-- Сертификаты -->
+<section class="certificates">
+    <div class="container">
+        <h2>Наши сертификаты</h2>
+        <div class="certificates-grid">
+            <div class="certificate-item">
+                <span class="icon">🏆</span>
+                <h4>Сертифицированные специалисты</h4>
+                <p>Все наши бухгалтеры имеют профессиональные сертификаты и регулярно проходят повышение квалификации</p>
+            </div>
+            <div class="certificate-item">
+                <span class="icon">📜</span>
+                <h4>Лицензии СРО</h4>
+                <p>Членство в Саморегулируемой организации профессиональных бухгалтеров и аудиторов</p>
+            </div>
+            <div class="certificate-item">
+                <span class="icon">⭐</span>
+                <h4>Награды и достижения</h4>
+                <p>Неоднократные номинанты на "Лучшая бухгалтерская компания года"</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Призыв к действию -->
+<section class="cta-section">
+    <div class="container">
+        <h2>Готовы начать сотрудничество?</h2>
+        <p>Присоединяйтесь к 100+ довольным клиентам, которые уже доверили нам свой бухгалтерский учет</p>
+        <a href="/consultation" class="btn-large">Начать работать с нами</a>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Анимация появления элементов при скролле
+    document.addEventListener('DOMContentLoaded', function () {
+        const animatedElements = document.querySelectorAll('.stat-item, .value-item, .team-member, .certificate-item');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        animatedElements.forEach(element => {
+            element.style.animationPlayState = 'paused';
+            observer.observe(element);
+        });
+
+        // Плавная прокрутка для якорных ссылок
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

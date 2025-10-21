@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+
+{% block title %}Услуги - Профессиональный бухгалтер{% endblock %}
+
+{% block extra_css %}
+<style>
+    .services-header {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+        .services-header h1 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .services-header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+        margin-bottom: 50px;
+    }
+
+    .service-card {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+        border-left: 4px solid #667eea;
+    }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .service-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .service-card .price {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #28a745;
+            margin: 10px 0;
+        }
+
+        .service-card .description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+    .features {
+        background: #f8f9fa;
+        padding: 50px 0;
+        border-radius: 10px;
+        margin: 40px 0;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+    }
+
+    .feature-item {
+        text-align: center;
+        padding: 20px;
+    }
+
+        .feature-item i {
+            font-size: 2.5em;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .feature-item h4 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+    .cta-section {
+        text-align: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 60px 40px;
+        border-radius: 10px;
+        margin-top: 50px;
+    }
+
+        .cta-section h2 {
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+    .btn-large {
+        display: inline-block;
+        padding: 15px 40px;
+        background-color: white;
+        color: #667eea;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        font-size: 1.1em;
+        transition: transform 0.3s;
+    }
+
+        .btn-large:hover {
+            transform: translateY(-2px);
+            color: #667eea;
+        }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="services-header">
+    <h1>Наши услуги</h1>
+    <p>Профессиональные бухгалтерские услуги для бизнеса любого масштаба</p>
+</div>
+
+<div class="services-grid">
+    {% for key, service in services.items() %}
+    <div class="service-card">
+        <h3>{{ service.name }}</h3>
+        <div class="price">{{ service.price_range }}</div>
+        <div class="description">{{ service.description }}</div>
+        <ul>
+            {% if key == 'bookkeeping' %}
+            <li>Полное ведение учета</li>
+            <li>Налоговое планирование</li>
+            <li>Консультации 24/7</li>
+            {% elif key == 'tax_consulting' %}
+            <li>Оптимизация налогов</li>
+            <li>Налоговый аудит</li>
+            <li>Консультации по налогам</li>
+            {% elif key == 'reporting' %}
+            <li>Подготовка отчетности</li>
+            <li>Сдача в контролирующие органы</li>
+            <li>Электронная отчетность</li>
+            {% elif key == 'audit' %}
+            <li>Комплексная проверка</li>
+            <li>Анализ рисков</li>
+            <li>Рекомендации по улучшению</li>
+            {% elif key == 'registration' %}
+            <li>Подготовка документов</li>
+            <li>Регистрация в фондах</li>
+            <li>Открытие расчетного счета</li>
+            {% elif key == 'salary' %}
+            <li>Расчет зарплаты</li>
+            <li>Налоги и взносы</li>
+            <li>Отчетность по сотрудникам</li>
+            {% endif %}
+        </ul>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="features">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 40px;">Почему выбирают нас</h2>
+        <div class="features-grid">
+            <div class="feature-item">
+                <div>⚡</div>
+                <h4>Оперативность</h4>
+                <p>Быстрое решение задач в сжатые сроки</p>
+            </div>
+            <div class="feature-item">
+                <div>🔒</div>
+                <h4>Конфиденциальность</h4>
+                <p>Полная защита ваших данных</p>
+            </div>
+            <div class="feature-item">
+                <div>💼</div>
+                <h4>Опыт</h4>
+                <p>Более 15 лет на рынке бухгалтерских услуг</p>
+            </div>
+            <div class="feature-item">
+                <div>📞</div>
+                <h4>Поддержка</h4>
+                <p>Круглосуточная консультационная поддержка</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cta-section">
+    <h2>Готовы начать сотрудничество?</h2>
+    <p>Оставьте заявку и получите бесплатную консультацию по нашим услугам</p>
+    <a href="/consultation" class="btn-large">Оставить заявку</a>
+</div>
+{% endblock %}

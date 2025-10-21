@@ -1,0 +1,312 @@
+{% extends "base.html" %}
+
+{% block title %}Админ панель{% endblock %}
+
+{% block extra_css %}
+<style>
+    .admin-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+        .admin-header h2 {
+            margin: 0;
+            color: #333;
+        }
+
+        .admin-header > div:last-child {
+            font-size: 1.1em;
+            color: #666;
+        }
+
+    .filter-section {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+    }
+
+        .filter-section form {
+            display: flex;
+            gap: 15px;
+            align-items: flex-end;
+            flex-wrap: wrap;
+        }
+
+        .filter-section label {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .filter-section select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            min-width: 150px;
+        }
+
+        .filter-section button {
+            padding: 8px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+
+            .filter-section button:hover {
+                transform: translateY(-2px);
+            }
+
+    .requests-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        overflow: hidden;
+        table-layout: fixed;
+    }
+
+        .requests-table th,
+        .requests-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+            word-wrap: break-word;
+        }
+
+        .requests-table th {
+            background-color: #667eea;
+            color: #fff;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        .requests-table tbody tr {
+            transition: background-color 0.2s;
+        }
+
+            .requests-table tbody tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+
+            .requests-table tbody tr:hover {
+                background-color: #f0f0ff;
+            }
+
+    .status-badge {
+        display: inline-block;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 0.85em;
+        text-align: center;
+    }
+
+    .status-новая {
+        background-color: #cce5ff;
+        color: #004085;
+    }
+
+    .status-в_процессе {
+        background-color: #fff3cd;
+        color: #856404;
+    }
+
+    .status-завершена {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .btn-small {
+        padding: 6px 12px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 0.85em;
+        font-weight: bold;
+        text-decoration: none;
+        display: inline-block;
+        margin-right: 5px;
+        transition: opacity 0.2s;
+    }
+
+        .btn-small:hover {
+            opacity: 0.8;
+        }
+
+    .btn-status {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .btn-delete {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .action-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+        .action-buttons form {
+            display: inline;
+        }
+
+    .empty-message {
+        text-align: center;
+        padding: 60px 20px;
+        color: #999;
+        font-size: 1.1em;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .message-text {
+        display: block;
+        margin-bottom: 15px;
+        font-size: 1.3em;
+    }
+
+    /* Колонки таблицы */
+    .table-id {
+        width: 5%;
+    }
+
+    .table-name {
+        width: 12%;
+    }
+
+    .table-email {
+        width: 15%;
+    }
+
+    .table-phone {
+        width: 12%;
+    }
+
+    .table-message {
+        width: 20%;
+    }
+
+    .table-date {
+        width: 12%;
+    }
+
+    .table-status {
+        width: 10%;
+    }
+
+    .table-actions {
+        width: 14%;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="admin-header">
+    <h2>Админ панель - Заявки на консультацию</h2>
+    <div>Всего заявок: <strong>{{ requests|length }}</strong></div>
+</div>
+
+<div class="filter-section">
+    <form method="GET" id="filter-form">
+        <label>
+            Месяц:
+            <select name="month" required id="month-select">
+                {% for y, m in available_months %}
+                {% if m == current_month and y == current_year %}
+                <option value="{{ m }}" selected data-year="{{ y }}">{{ month_names[m] }} {{ y }}</option>
+                {% else %}
+                <option value="{{ m }}" data-year="{{ y }}">{{ month_names[m] }} {{ y }}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+        </label>
+        <input type="hidden" name="year" id="year-input" value="{{ current_year }}">
+        <button type="submit">Показать</button>
+    </form>
+    <script>
+        document.getElementById('month-select').addEventListener('change', function () {
+            const selectedOption = this.options[this.selectedIndex];
+            document.getElementById('year-input').value = selectedOption.dataset.year;
+        });
+    </script>
+</div>
+
+{% if requests %}
+<table class="requests-table">
+    <thead>
+        <tr>
+            <th class="table-id">ID</th>
+            <th class="table-name">Имя</th>
+            <th class="table-email">Email</th>
+            <th class="table-phone">Телефон</th>
+            <th class="table-message">Сообщение</th>
+            <th class="table-date">Дата</th>
+            <th class="table-status">Статус</th>
+            <th class="table-actions">Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for request in requests %}
+        <tr>
+            <td class="table-id">#{{ request.id }}</td>
+            <td class="table-name">{{ request.name }}</td>
+            <td class="table-email">{{ request.email }}</td>
+            <td class="table-phone">{{ request.phone }}</td>
+            <td class="table-message" title="{{ request.message }}">{{ request.message[:45] }}{% if request.message|length > 45 %}...{% endif %}</td>
+            <td class="table-date">{{ request.date }}</td>
+            <td class="table-status">
+                <span class="status-badge status-{{ request.status }}">
+                    {% if request.status == 'новая' %}Новая
+                    {% elif request.status == 'в_процессе' %}В процессе
+                    {% else %}Завершена
+                    {% endif %}
+                </span>
+            </td>
+            <td class="table-actions">
+                <div class="action-buttons">
+                    {% if request.status != 'завершена' %}
+                    <form method="POST" style="display: inline;">
+                        <button type="submit" class="btn-small btn-status"
+                                formaction="/admin/update-status/{{ request.id }}/завершена?year={{ current_year }}&month={{ current_month }}">
+                            ✓ Завершить
+                        </button>
+                    </form>
+                    {% endif %}
+                    <form method="POST" style="display: inline;">
+                        <button type="submit" class="btn-small btn-delete"
+                                onclick="return confirm('Вы уверены?')"
+                                formaction="/admin/delete/{{ request.id }}?year={{ current_year }}&month={{ current_month }}">
+                            🗑 Удалить
+                        </button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="empty-message">
+    <span class="message-text">📭</span>
+    Нет заявок на консультацию за выбранный период
+</div>
+{% endif %}
+{% endblock %}

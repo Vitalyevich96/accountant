@@ -1,0 +1,218 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{7E643ADD-18E2-45B3-8E22-A595536DCF95}|accountant.pyproj|C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7E643ADD-18E2-45B3-8E22-A595536DCF95}|accountant.pyproj|solutionrelative:templates\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7E643ADD-18E2-45B3-8E22-A595536DCF95}|accountant.pyproj|C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\about.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7E643ADD-18E2-45B3-8E22-A595536DCF95}|accountant.pyproj|solutionrelative:templates\\about.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7E643ADD-18E2-45B3-8E22-A595536DCF95}|accountant.pyproj|C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\base.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7E643ADD-18E2-45B3-8E22-A595536DCF95}|accountant.pyproj|solutionrelative:templates\\base.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7E643ADD-18E2-45B3-8E22-A595536DCF95}|accountant.pyproj|C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\services.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7E643ADD-18E2-45B3-8E22-A595536DCF95}|accountant.pyproj|solutionrelative:templates\\services.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7E643ADD-18E2-45B3-8E22-A595536DCF95}|accountant.pyproj|C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\app.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{7E643ADD-18E2-45B3-8E22-A595536DCF95}|accountant.pyproj|solutionrelative:app.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7E643ADD-18E2-45B3-8E22-A595536DCF95}|accountant.pyproj|C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\pricing.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7E643ADD-18E2-45B3-8E22-A595536DCF95}|accountant.pyproj|solutionrelative:templates\\pricing.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7E643ADD-18E2-45B3-8E22-A595536DCF95}|accountant.pyproj|C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\admin_clients.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7E643ADD-18E2-45B3-8E22-A595536DCF95}|accountant.pyproj|solutionrelative:templates\\admin_clients.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7E643ADD-18E2-45B3-8E22-A595536DCF95}|accountant.pyproj|C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\500.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7E643ADD-18E2-45B3-8E22-A595536DCF95}|accountant.pyproj|solutionrelative:templates\\500.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7E643ADD-18E2-45B3-8E22-A595536DCF95}|accountant.pyproj|C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\404.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7E643ADD-18E2-45B3-8E22-A595536DCF95}|accountant.pyproj|solutionrelative:templates\\404.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7E643ADD-18E2-45B3-8E22-A595536DCF95}|accountant.pyproj|C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\consultation.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7E643ADD-18E2-45B3-8E22-A595536DCF95}|accountant.pyproj|solutionrelative:templates\\consultation.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7E643ADD-18E2-45B3-8E22-A595536DCF95}|accountant.pyproj|C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\admin.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7E643ADD-18E2-45B3-8E22-A595536DCF95}|accountant.pyproj|solutionrelative:templates\\admin.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7E643ADD-18E2-45B3-8E22-A595536DCF95}|accountant.pyproj|C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\login.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7E643ADD-18E2-45B3-8E22-A595536DCF95}|accountant.pyproj|solutionrelative:templates\\login.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 7,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "500.html",
+              "DocumentMoniker": "C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\500.html",
+              "RelativeDocumentMoniker": "templates\\500.html",
+              "ToolTip": "C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\500.html",
+              "RelativeToolTip": "templates\\500.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-10-20T20:09:01.874Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "404.html",
+              "DocumentMoniker": "C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\404.html",
+              "RelativeDocumentMoniker": "templates\\404.html",
+              "ToolTip": "C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\404.html",
+              "RelativeToolTip": "templates\\404.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-10-20T20:08:47.6Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "admin_clients.html",
+              "DocumentMoniker": "C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\admin_clients.html",
+              "RelativeDocumentMoniker": "templates\\admin_clients.html",
+              "ToolTip": "C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\admin_clients.html",
+              "RelativeToolTip": "templates\\admin_clients.html",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAmwIsAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-10-20T19:57:39.363Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "about.html",
+              "DocumentMoniker": "C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\about.html",
+              "RelativeDocumentMoniker": "templates\\about.html",
+              "ToolTip": "C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\about.html",
+              "RelativeToolTip": "templates\\about.html",
+              "ViewState": "AgIAAM4BAAAAAAAAAAAAAOMBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-10-20T19:53:43.953Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "pricing.html",
+              "DocumentMoniker": "C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\pricing.html",
+              "RelativeDocumentMoniker": "templates\\pricing.html",
+              "ToolTip": "C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\pricing.html",
+              "RelativeToolTip": "templates\\pricing.html",
+              "ViewState": "AgIAAHIAAAAAAAAAAAAQwM4AAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-10-20T19:53:22.868Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "services.html",
+              "DocumentMoniker": "C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\services.html",
+              "RelativeDocumentMoniker": "templates\\services.html",
+              "ToolTip": "C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\services.html",
+              "RelativeToolTip": "templates\\services.html",
+              "ViewState": "AgIAAJYAAAAAAAAAAAAAALsAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-10-20T19:53:00.536Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "app.py",
+              "DocumentMoniker": "C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\app.py",
+              "RelativeDocumentMoniker": "app.py",
+              "ToolTip": "C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\app.py",
+              "RelativeToolTip": "app.py",
+              "ViewState": "AgIAADQBAAAAAAAAAAAQwBIAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-10-17T03:01:10.971Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "index.html",
+              "DocumentMoniker": "C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\index.html",
+              "RelativeDocumentMoniker": "templates\\index.html",
+              "ToolTip": "C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\index.html",
+              "RelativeToolTip": "templates\\index.html",
+              "ViewState": "AgIAAO0AAAAAAAAAAAAQwBcBAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-10-17T03:03:01.864Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "admin.html",
+              "DocumentMoniker": "C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\admin.html",
+              "RelativeDocumentMoniker": "templates\\admin.html",
+              "ToolTip": "C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\admin.html",
+              "RelativeToolTip": "templates\\admin.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-10-17T03:03:50.956Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "base.html",
+              "DocumentMoniker": "C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\base.html",
+              "RelativeDocumentMoniker": "templates\\base.html",
+              "ToolTip": "C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\base.html",
+              "RelativeToolTip": "templates\\base.html",
+              "ViewState": "AgIAAAcBAAAAAAAAAAAAACcBAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-10-17T03:02:36.977Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "consultation.html",
+              "DocumentMoniker": "C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\consultation.html",
+              "RelativeDocumentMoniker": "templates\\consultation.html",
+              "ToolTip": "C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\consultation.html",
+              "RelativeToolTip": "templates\\consultation.html",
+              "ViewState": "AgIAAGkAAAAAAAAAAAAQwIMAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-10-17T03:03:19.154Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "login.html",
+              "DocumentMoniker": "C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\login.html",
+              "RelativeDocumentMoniker": "templates\\login.html",
+              "ToolTip": "C:\\Users\\Administrator\\Documents\\project\\beta\\accountant v2.0\\templates\\login.html",
+              "RelativeToolTip": "templates\\login.html",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAQwFoAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-10-17T03:03:35.424Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

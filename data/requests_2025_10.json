@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "client_id": "0f4e94a1-67d8-4d44-94d2-9626b871f4d8",
+    "name": "Alexandr Gussev",
+    "email": "legionary0211@yandex.com",
+    "phone": "87085352646",
+    "service_type": "bookkeeping",
+    "company_type": "ИП",
+    "message": "Нужно сдать форму У123",
+    "urgency": "standard",
+    "date": "21.10.2025 01:30:42",
+    "status": "завершена",
+    "assigned_to": "",
+    "notes": ""
+  }
+]

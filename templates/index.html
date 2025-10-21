@@ -1,0 +1,382 @@
+{% extends "base.html" %}
+
+{% block title %}Главная - Профессиональные услуги бухгалтера{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 80px 20px;
+        border-radius: 10px;
+        text-align: center;
+        margin-bottom: 60px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .hero h1 {
+        font-size: 3em;
+        margin-bottom: 20px;
+        font-weight: 700;
+    }
+
+    .hero p {
+        font-size: 1.3em;
+        margin-bottom: 30px;
+        opacity: 0.9;
+        line-height: 1.6;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 15px 40px;
+        background-color: white;
+        color: #667eea;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: bold;
+        font-size: 1.1em;
+        transition: transform 0.3s, box-shadow 0.3s;
+        margin: 10px;
+    }
+
+    .btn-secondary {
+        background-color: transparent;
+        color: white;
+        border: 2px solid white;
+    }
+
+    .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    .btn-secondary:hover {
+        background-color: white;
+        color: #667eea;
+    }
+
+    .features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin: 60px 0;
+    }
+
+    .feature-card {
+        background: white;
+        padding: 40px 30px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        text-align: center;
+        transition: transform 0.3s;
+        border-top: 4px solid #667eea;
+    }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+    .feature-icon {
+        font-size: 3em;
+        margin-bottom: 20px;
+        display: block;
+    }
+
+    .feature-card h3 {
+        color: #333;
+        margin-bottom: 15px;
+        font-size: 1.4em;
+    }
+
+    .feature-card p {
+        color: #666;
+        line-height: 1.6;
+    }
+
+    .services-preview {
+        background: #f8f9fa;
+        padding: 80px 0;
+        margin: 60px 0;
+        border-radius: 15px;
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+        .section-header h2 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .section-header p {
+            color: #666;
+            font-size: 1.2em;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+    }
+
+    .service-card {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+        border-left: 4px solid #667eea;
+    }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .service-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .service-card .price {
+            font-weight: bold;
+            color: #28a745;
+            margin: 10px 0;
+            font-size: 1.1em;
+        }
+
+        .service-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+
+        .service-card li {
+            padding: 5px 0;
+            color: #555;
+            position: relative;
+            padding-left: 20px;
+        }
+
+            .service-card li:before {
+                content: '✓';
+                color: #28a745;
+                font-weight: bold;
+                position: absolute;
+                left: 0;
+            }
+
+    .stats-bar {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 60px 0;
+        border-radius: 15px;
+        margin: 60px 0;
+    }
+
+    .stats-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 30px;
+        text-align: center;
+    }
+
+    .stat-item h3 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+
+    .stat-item p {
+        opacity: 0.9;
+        font-size: 1.1em;
+    }
+
+    .cta-section {
+        text-align: center;
+        padding: 80px 40px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+        margin: 60px 0;
+    }
+
+        .cta-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2.2em;
+        }
+
+        .cta-section p {
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+    .btn-group {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    @media (max-width: 768px) {
+        .hero h1 {
+            font-size: 2.2em;
+        }
+
+        .hero p {
+            font-size: 1.1em;
+        }
+
+        .btn-group {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .btn {
+            width: 100%;
+            max-width: 300px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Герой секция -->
+<section class="hero">
+    <div class="hero-content">
+        <h2>
+            Здравствуйте! Меня зовут Гусева Юлия Александровна.
+            Уже более 15 лет я предоставляю профессиональные бухгалтерские услуги для организаций и индивидуальных предпринимателей.
+            За это время помогла десяткам клиентов наладить учет, оптимизировать налогообложение и чувствовать уверенность в финансовых вопросах.
+            Моя цель — сделать бухгалтерию понятной, прозрачной и надежной опорой для вашего бизнеса.
+        </h2>
+        <div class="btn-group">
+            <a href="/consultation" class="btn">Получить консультацию</a>
+            <a href="/services" class="btn btn-secondary">Все услуги</a>
+        </div>
+
+    </div>
+    <h2>+7 (701) 362-32-63</h2>
+    <h2>juliagusseva@mail.ru</h2>
+</section>
+
+<!-- Ключевые преимущества -->
+<section class="features">
+    <div class="feature-card">
+        <span class="feature-icon">💰</span>
+        <h3>Экономия до 40%</h3>
+        <p>Снижаем ваши затраты на содержание штатного бухгалтера и оптимизируем налоговую нагрузку</p>
+    </div>
+    <div class="feature-card">
+        <span class="feature-icon">⚡</span>
+        <h3>Оперативность</h3>
+        <p>Своевременная сдача отчетности и быстрая реакция на изменения в законодательстве</p>
+    </div>
+    <div class="feature-card">
+        <span class="feature-icon">🛡️</span>
+        <h3>Защита от штрафов</h3>
+        <p>Гарантия отсутствия ошибок и полная защита от налоговых санкций и штрафов</p>
+    </div>
+</section>
+
+<!-- Предпросмотр услуг -->
+<section class="services-preview">
+    <div class="container">
+        <div class="section-header">
+            <h2>Наши услуги</h2>
+            <p>Комплексные бухгалтерские решения для вашего бизнеса</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <h3>📊 Ведение бухгалтерии</h3>
+                <div class="price">от 50 000 тенге/мес</div>
+                <p>Полное ведение бухгалтерского и налогового учета</p>
+                <ul>
+                    <li>Ежемесячное закрытие</li>
+                    <li>Работа с первичкой</li>
+                    <li>Учет ОС и МПЗ</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <h3>📋 Налоговая отчетность</h3>
+                <div class="price">от 15 000 тенге</div>
+                <p>Подготовка и сдача всей необходимой отчетности</p>
+                <ul>
+                    <li>Налоговые декларации</li>
+                    <li>Статистическая отчетность</li>
+                    <li>Электронная сдача</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <h3>👨‍💼 Консультации</h3>
+                <div class="price">10 000 тенге</div>
+                <p>Профессиональные консультации по всем вопросам</p>
+                <ul>
+                    <li>Налоговое планирование</li>
+                    <li>Анализ рисков</li>
+                    <li>Оптимизация процессов</li>
+                </ul>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="/services" class="btn">Смотреть все услуги</a>
+        </div>
+    </div>
+</section>
+
+<!-- Статистика -->
+<section class="stats-bar">
+    <div class="container">
+        <div class="stats-container">
+            <div class="stat-item">
+                <h3>10+</h3>
+                <p>Лет на рынке</p>
+            </div>
+            <div class="stat-item">
+                <h3>500+</h3>
+                <p>Довольных клиентов</p>
+            </div>
+            <div class="stat-item">
+                <h3>15 000+</h3>
+                <p>Сданных отчетов</p>
+            </div>
+            <div class="stat-item">
+                <h3>99%</h3>
+                <p>Успешных проверок</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Призыв к действию -->
+<section class="cta-section">
+    <div class="container">
+        <h2>Готовы передать бухгалтерию в надежные руки?</h2>
+        <p>Оставьте заявку прямо сейчас и получите бесплатный анализ вашей текущей ситуации с рекомендациями по оптимизации</p>
+        <div class="btn-group">
+            <a href="/consultation" class="btn">Оставить заявку</a>
+            <a href="/pricing" class="btn btn-secondary">Посмотреть цены</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

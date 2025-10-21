@@ -1,0 +1,438 @@
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
+import json
+import os
+from datetime import datetime, timedelta
+from functools import wraps
+import uuid
+
+app = Flask(__name__)
+app.secret_key = 'your-secret-key-change-this-in-production'
+
+DATA_FOLDER = 'data'
+ADMIN_LOGIN = 'admin'
+ADMIN_PASSWORD = 'admin'
+
+# Конфигурация услуг
+SERVICES = {
+    'bookkeeping': {
+        'name': 'Ведение бухгалтерии',
+        'price_range': 'от 50 000 тенге/месяц',
+        'description': 'Полное ведение бухгалтерского и налогового учета'
+    },
+    'tax_consulting': {
+        'name': 'Налоговое консультирование',
+        'price_range': 'от 15 000 тенге',
+        'description': 'Оптимизация налоговой нагрузки и консультации'
+    },
+    'reporting': {
+        'name': 'Сдача отчетности',
+        'price_range': 'от 10 000 тенге',
+        'description': 'Подготовка и сдача всей необходимой отчетности'
+    },
+    'audit': {
+        'name': 'Аудит',
+        'price_range': 'от 100 000 тенге',
+        'description': 'Проверка бухгалтерской и налоговой отчетности'
+    },
+    'registration': {
+        'name': 'Регистрация бизнеса',
+        'price_range': 'от 40 000 тенге',
+        'description': 'Регистрация ИП и ООО под ключ'
+    },
+    'salary': {
+        'name': 'Расчет заработной платы',
+        'price_range': 'от 20 000 тенге/месяц',
+        'description': 'Расчет зарплаты, налогов и взносов'
+    }
+}
+
+def ensure_data_folder():
+    """Создать папку data если её нет"""
+    if not os.path.exists(DATA_FOLDER):
+        os.makedirs(DATA_FOLDER)
+
+def get_filename(year, month):
+    """Получить имя файла для месяца"""
+    ensure_data_folder()
+    return os.path.join(DATA_FOLDER, f'requests_{year}_{month:02d}.json')
+
+def get_current_month_year():
+    """Получить текущий месяц и год"""
+    now = datetime.now()
+    return now.year, now.month
+
+def load_requests(year=None, month=None):
+    """Загрузить заявки из файла"""
+    if year is None or month is None:
+        year, month = get_current_month_year()
+    
+    filename = get_filename(year, month)
+    if os.path.exists(filename):
+        with open(filename, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    return []
+
+def save_requests(requests_list, year=None, month=None):
+    """Сохранить заявки в файл"""
+    if year is None or month is None:
+        year, month = get_current_month_year()
+    
+    ensure_data_folder()
+    filename = get_filename(year, month)
+    with open(filename, 'w', encoding='utf-8') as f:
+        json.dump(requests_list, f, ensure_ascii=False, indent=2)
+
+def get_available_months():
+    """Получить список доступных месяцев с заявками"""
+    ensure_data_folder()
+    months = []
+    
+    for filename in sorted(os.listdir(DATA_FOLDER), reverse=True):
+        if filename.startswith('requests_') and filename.endswith('.json'):
+            parts = filename.replace('requests_', '').replace('.json', '').split('_')
+            if len(parts) == 2:
+                year, month = int(parts[0]), int(parts[1])
+                months.append((year, month))
+    
+    return months
+
+def load_clients():
+    """Загрузить базу клиентов"""
+    filename = os.path.join(DATA_FOLDER, 'clients.json')
+    if os.path.exists(filename):
+        with open(filename, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    return []
+
+def save_clients(clients):
+    """Сохранить базу клиентов"""
+    ensure_data_folder()
+    filename = os.path.join(DATA_FOLDER, 'clients.json')
+    with open(filename, 'w', encoding='utf-8') as f:
+        json.dump(clients, f, ensure_ascii=False, indent=2)
+
+def login_required(f):
+    """Декоратор для проверки авторизации"""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user' not in session:
+            flash('Пожалуйста, выполните вход', 'error')
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+@app.route('/')
+def index():
+    """Главная страница"""
+    return render_template('index.html', services=SERVICES)
+
+@app.route('/services')
+def services():
+    """Страница с описанием услуг"""
+    return render_template('services.html', services=SERVICES)
+
+@app.route('/consultation', methods=['GET', 'POST'])
+def consultation():
+    """Страница заявки на консультацию"""
+    if request.method == 'POST':
+        name = request.form.get('name', '').strip()
+        email = request.form.get('email', '').strip()
+        phone = request.form.get('phone', '').strip()
+        service_type = request.form.get('service_type', '').strip()
+        company_type = request.form.get('company_type', '').strip()
+        message = request.form.get('message', '').strip()
+        urgency = request.form.get('urgency', 'standard')
+        
+        if not all([name, email, phone, service_type]):
+            flash('Пожалуйста, заполните все обязательные поля', 'error')
+            return redirect(url_for('consultation'))
+        
+        # Добавляем в базу клиентов
+        clients = load_clients()
+        client_exists = any(client['email'] == email for client in clients)
+        
+        if not client_exists:
+            new_client = {
+                'id': str(uuid.uuid4()),
+                'name': name,
+                'email': email,
+                'phone': phone,
+                'company_type': company_type,
+                'created_date': datetime.now().strftime('%d.%m.%Y %H:%M:%S'),
+                'requests_count': 1
+            }
+            clients.append(new_client)
+            save_clients(clients)
+        
+        # Сохраняем заявку
+        year, month = get_current_month_year()
+        requests_list = load_requests(year, month)
+        
+        new_request = {
+            'id': len(requests_list) + 1,
+            'client_id': next((client['id'] for client in clients if client['email'] == email), str(uuid.uuid4())),
+            'name': name,
+            'email': email,
+            'phone': phone,
+            'service_type': service_type,
+            'company_type': company_type,
+            'message': message,
+            'urgency': urgency,
+            'date': datetime.now().strftime('%d.%m.%Y %H:%M:%S'),
+            'status': 'новая',
+            'assigned_to': '',
+            'notes': ''
+        }
+        requests_list.append(new_request)
+        save_requests(requests_list, year, month)
+        
+        flash('Спасибо! Ваша заявка принята. Мы свяжемся с вами в ближайшее время.', 'success')
+        return redirect(url_for('consultation'))
+    
+    return render_template('consultation.html', services=SERVICES)
+
+@app.route('/pricing')
+def pricing():
+    """Страница с ценами"""
+    return render_template('pricing.html', services=SERVICES)
+
+@app.route('/about')
+def about():
+    """Страница о компании"""
+    return render_template('about.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    """Вход в админ панель"""
+    if request.method == 'POST':
+        login_input = request.form.get('login', '').strip()
+        password_input = request.form.get('password', '').strip()
+        
+        if login_input == ADMIN_LOGIN and password_input == ADMIN_PASSWORD:
+            session['user'] = ADMIN_LOGIN
+            flash('Вы успешно вошли', 'success')
+            return redirect(url_for('admin_panel'))
+        else:
+            flash('Неверные учетные данные', 'error')
+    
+    return render_template('login.html')
+
+@app.route('/admin')
+@login_required
+def admin_panel():
+    """Админ панель с заявками"""
+    year = request.args.get('year', type=int)
+    month = request.args.get('month', type=int)
+    status_filter = request.args.get('status', '')
+    
+    current_year, current_month = get_current_month_year()
+    available_months = get_available_months()
+    
+    if year is None or month is None:
+        year, month = current_year, current_month
+    
+    requests_list = load_requests(year, month)
+    
+    # Фильтрация по статусу
+    if status_filter:
+        requests_list = [r for r in requests_list if r['status'] == status_filter]
+    
+    requests_list.sort(key=lambda x: x['id'], reverse=True)
+    
+    # Статистика
+    stats = {
+        'total': len(requests_list),
+        'new': len([r for r in requests_list if r['status'] == 'новая']),
+        'in_progress': len([r for r in requests_list if r['status'] == 'в_процессе']),
+        'completed': len([r for r in requests_list if r['status'] == 'завершена'])
+    }
+    
+    month_names = ['', 'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+                   'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
+    
+    return render_template('admin.html', 
+                         requests=requests_list,
+                         available_months=available_months,
+                         current_year=year,
+                         current_month=month,
+                         month_names=month_names,
+                         stats=stats,
+                         status_filter=status_filter,
+                         services=SERVICES)
+
+@app.route('/admin/clients')
+@login_required
+def admin_clients():
+    """Управление клиентами"""
+    clients = load_clients()
+    clients.sort(key=lambda x: x['name'])
+    
+    return render_template('admin_clients.html', clients=clients)
+
+@app.route('/admin/delete/<int:request_id>', methods=['POST'])
+@login_required
+def delete_request(request_id):
+    """Удалить заявку"""
+    year = request.args.get('year', type=int)
+    month = request.args.get('month', type=int)
+    current_year, current_month = get_current_month_year()
+    
+    if year is None or month is None:
+        year, month = current_year, current_month
+    
+    requests_list = load_requests(year, month)
+    requests_list = [r for r in requests_list if r['id'] != request_id]
+    save_requests(requests_list, year, month)
+    flash('Заявка удалена', 'success')
+    return redirect(url_for('admin_panel', year=year, month=month))
+
+@app.route('/admin/update-status/<int:request_id>/<status>', methods=['POST'])
+@login_required
+def update_status(request_id, status):
+    """Обновить статус заявки"""
+    year = request.args.get('year', type=int)
+    month = request.args.get('month', type=int)
+    current_year, current_month = get_current_month_year()
+    
+    if year is None or month is None:
+        year, month = current_year, current_month
+    
+    valid_statuses = ['новая', 'в_процессе', 'завершена']
+    if status not in valid_statuses:
+        flash('Неверный статус', 'error')
+        return redirect(url_for('admin_panel', year=year, month=month))
+    
+    requests_list = load_requests(year, month)
+    for r in requests_list:
+        if r['id'] == request_id:
+            r['status'] = status
+            break
+    save_requests(requests_list, year, month)
+    flash('Статус обновлен', 'success')
+    return redirect(url_for('admin_panel', year=year, month=month))
+
+@app.route('/admin/add-note/<int:request_id>', methods=['POST'])
+@login_required
+def add_note(request_id):
+    """Добавить заметку к заявке"""
+    year = request.args.get('year', type=int)
+    month = request.args.get('month', type=int)
+    note = request.form.get('note', '').strip()
+    
+    current_year, current_month = get_current_month_year()
+    if year is None or month is None:
+        year, month = current_year, current_month
+    
+    requests_list = load_requests(year, month)
+    for r in requests_list:
+        if r['id'] == request_id:
+            r['notes'] = note
+            break
+    save_requests(requests_list, year, month)
+    flash('Заметка добавлена', 'success')
+    return redirect(url_for('admin_panel', year=year, month=month))
+
+@app.route('/admin/assign-to/<int:request_id>', methods=['POST'])
+@login_required
+def assign_request(request_id):
+    """Назначить заявку сотруднику"""
+    year = request.args.get('year', type=int)
+    month = request.args.get('month', type=int)
+    assigned_to = request.form.get('assigned_to', '').strip()
+    
+    current_year, current_month = get_current_month_year()
+    if year is None or month is None:
+        year, month = current_year, current_month
+    
+    requests_list = load_requests(year, month)
+    for r in requests_list:
+        if r['id'] == request_id:
+            r['assigned_to'] = assigned_to
+            break
+    save_requests(requests_list, year, month)
+    flash('Заявка назначена', 'success')
+    return redirect(url_for('admin_panel', year=year, month=month))
+
+@app.route('/logout')
+def logout():
+    """Выход из админ панели"""
+    session.pop('user', None)
+    flash('Вы вышли из системы', 'success')
+    return redirect(url_for('index'))
+
+@app.route('/admin/export/<int:year>/<int:month>')
+@login_required
+def export_requests(year, month):
+    """Экспорт заявок в CSV"""
+    import csv
+    from io import StringIO
+    
+    requests_list = load_requests(year, month)
+    
+    if not requests_list:
+        flash('Нет данных для экспорта', 'error')
+        return redirect(url_for('admin_panel', year=year, month=month))
+    
+    output = StringIO()
+    writer = csv.writer(output)
+    
+    # Заголовки
+    writer.writerow(['ID', 'Имя', 'Email', 'Телефон', 'Услуга', 'Тип компании', 'Сообщение', 'Дата', 'Статус'])
+    
+    # Данные
+    for req in requests_list:
+        writer.writerow([
+            req['id'],
+            req['name'],
+            req['email'],
+            req['phone'],
+            req.get('service_type', ''),
+            req.get('company_type', ''),
+            req['message'],
+            req['date'],
+            req['status']
+        ])
+    
+    from flask import Response
+    output.seek(0)
+    
+    return Response(
+        output.getvalue(),
+        mimetype="text/csv",
+        headers={"Content-disposition": f"attachment; filename=requests_{year}_{month:02d}.csv"}
+    )
+
+@app.route('/api/stats')
+@login_required
+def api_stats():
+    """API для статистики"""
+    current_year, current_month = get_current_month_year()
+    requests_list = load_requests(current_year, current_month)
+    clients = load_clients()
+    
+    stats = {
+        'requests': {
+            'total': len(requests_list),
+            'new': len([r for r in requests_list if r['status'] == 'новая']),
+            'in_progress': len([r for r in requests_list if r['status'] == 'в_процессе']),
+            'completed': len([r for r in requests_list if r['status'] == 'завершена'])
+        },
+        'clients': {
+            'total': len(clients),
+            'recurring': len([c for c in clients if c.get('requests_count', 0) > 1])
+        }
+    }
+    
+    return jsonify(stats)
+
+# Добавить обработку ошибок
+@app.errorhandler(404)
+def not_found_error(error):
+    return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def internal_error(error):
+    return render_template('500.html'), 500
+
+if __name__ == '__main__':
+    app.run(debug=True)
