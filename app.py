@@ -434,5 +434,13 @@ def not_found_error(error):
 def internal_error(error):
     return render_template('500.html'), 500
 
+from flask import send_from_directory
+
+@app.route('/googleddd09674c4d97235.html')
+def google_verification():
+    return send_from_directory('.', 'googleddd09674c4d97235.html')
+
+
 if __name__ == '__main__':
+
     app.run(debug=True)
