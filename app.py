@@ -440,11 +440,19 @@ from flask import send_from_directory
 def google_verification():
     return send_from_directory('.', 'googleddd09674c4d97235.html')
 
+from flask import send_from_directory
+
 @app.route('/yandex_d94254384d1d67c8.html')
 def yandex_verification():
     return send_from_directory('.', 'yandex_d94254384d1d67c8.html')
 
+@app.route('/sitemap.xml')
+def sitemap():
+    return send_from_directory('.', 'sitemap.xml')
+
+@app.route('/robots.txt')
+def robots():
+    return send_from_directory('.', 'robots.txt')
+
 if __name__ == '__main__':
-
     app.run(debug=True)
-
