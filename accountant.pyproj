@@ -26,20 +26,17 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="data\" />
+    <Folder Include="static\" />
     <Folder Include="templates\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="static\favicon.ico" />
     <Content Include="templates\404.html" />
-    <Content Include="templates\500.html" />
-    <Content Include="templates\about.html" />
     <Content Include="templates\admin.html" />
-    <Content Include="templates\admin_clients.html" />
     <Content Include="templates\base.html" />
     <Content Include="templates\consultation.html" />
     <Content Include="templates\index.html" />
     <Content Include="templates\login.html" />
-    <Content Include="templates\pricing.html" />
-    <Content Include="templates\services.html" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="env\">
