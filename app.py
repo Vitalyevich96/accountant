@@ -12,6 +12,10 @@ DATA_FOLDER = 'data'
 ADMIN_LOGIN = 'admin'
 ADMIN_PASSWORD = 'admin1802'
 
+@app.template_filter('tojson')
+def to_json_filter(value):
+    return json.dumps(value, ensure_ascii=False)
+
 # Конфигурация услуг
 SERVICES = {
     'bookkeeping': {
@@ -149,11 +153,21 @@ def consultation():
         
         # Добавляем в базу клиентов
         clients = load_clients()
-        client_exists = any(client['email'] == email for client in clients)
-        
+        client_exists = False
+        client_id = None
+
+        for client in clients:
+            if client['email'] == email:
+                client_exists = True
+                client_id = client['id']
+                # Обновляем счетчик заявок
+                client['requests_count'] = client.get('requests_count', 1) + 1
+                break
+
         if not client_exists:
+            client_id = str(uuid.uuid4())
             new_client = {
-                'id': str(uuid.uuid4()),
+                'id': client_id,
                 'name': name,
                 'email': email,
                 'phone': phone,
@@ -162,7 +176,8 @@ def consultation():
                 'requests_count': 1
             }
             clients.append(new_client)
-            save_clients(clients)
+
+        save_clients(clients)
         
         # Сохраняем заявку
         year, month = get_current_month_year()
@@ -170,7 +185,7 @@ def consultation():
         
         new_request = {
             'id': len(requests_list) + 1,
-            'client_id': next((client['id'] for client in clients if client['email'] == email), str(uuid.uuid4())),
+            'client_id': client_id,
             'name': name,
             'email': email,
             'phone': phone,
@@ -260,14 +275,7 @@ def admin_panel():
                          status_filter=status_filter,
                          services=SERVICES)
 
-@app.route('/admin/clients')
-@login_required
-def admin_clients():
-    """Управление клиентами"""
-    clients = load_clients()
-    clients.sort(key=lambda x: x['name'])
-    
-    return render_template('admin_clients.html', clients=clients)
+
 
 @app.route('/admin/delete/<int:request_id>', methods=['POST'])
 @login_required
@@ -425,22 +433,39 @@ def api_stats():
     
     return jsonify(stats)
 
+from flask import send_from_directory
+
+# Добавьте этот маршрут для favicon
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory('static', 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
 # Добавить обработку ошибок
 @app.errorhandler(404)
 def not_found_error(error):
+    if request.path == '/favicon.ico':
+        # Для favicon возвращаем пустой ответ вместо ошибки 404
+        return '', 204
     return render_template('404.html'), 404
 
 @app.errorhandler(500)
 def internal_error(error):
-    return render_template('500.html'), 500
+    return """
+    <html>
+        <head><title>Ошибка сервера</title></head>
+        <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
+            <h1 style="color: #dc3545;">500 - Ошибка сервера</h1>
+            <p>Произошла внутренняя ошибка сервера. Пожалуйста, попробуйте позже.</p>
+            <a href="/" style="color: #007bff;">Вернуться на главную</a>
+        </body>
+    </html>
+    """, 500
 
 from flask import send_from_directory
 
 @app.route('/googleddd09674c4d97235.html')
 def google_verification():
     return send_from_directory('.', 'googleddd09674c4d97235.html')
-
-from flask import send_from_directory
 
 @app.route('/yandex_d94254384d1d67c8.html')
 def yandex_verification():
