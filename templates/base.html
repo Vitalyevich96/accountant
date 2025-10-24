@@ -7,7 +7,6 @@
 
     <link rel="icon" href="{{ url_for('favicon') }}" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-
     <style>
         :root {
             --primary: #007bff;
@@ -38,10 +37,10 @@
         header {
             position: sticky;
             top: 0;
-            background: rgba(255,255,255,0.98);
+            background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(12px);
-            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
-            border-bottom: 1px solid rgba(0,0,0,0.06);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
             z-index: 1000;
         }
 
@@ -52,6 +51,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
         }
 
         .logo {
@@ -80,7 +80,8 @@
                 color: var(--primary);
             }
 
-        .nav-left, .nav-right {
+        .nav-left,
+        .nav-right {
             display: flex;
             gap: 8px;
             align-items: center;
@@ -201,7 +202,7 @@
                 display: inline-flex;
                 width: 40px;
                 height: 40px;
-                background: rgba(255,255,255,0.1);
+                background: rgba(255, 255, 255, 0.1);
                 border-radius: 50%;
                 align-items: center;
                 justify-content: center;
@@ -219,7 +220,7 @@
 
         .footer-bottom {
             text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             padding: 25px 24px;
             font-size: 0.9em;
             color: #808080;
@@ -230,7 +231,7 @@
             }
 
         /* MOBILE */
-        @media(max-width: 968px) {
+        @media (max-width: 968px) {
             .footer-content {
                 grid-template-columns: 1fr 1fr;
                 gap: 40px;
@@ -241,27 +242,38 @@
             }
         }
 
-        @media(max-width: 768px) {
+        @media (max-width: 768px) {
             .mobile-menu-btn {
                 display: block;
+                font-size: 1.6em;
+                padding: 6px 10px;
+                border-radius: 6px;
+                transition: background 0.3s;
             }
+
+                .mobile-menu-btn:hover {
+                    background: rgba(0, 0, 0, 0.05);
+                }
 
             nav {
                 padding: 14px 20px;
             }
 
-            /* 🔹 Новый адаптивный стиль меню */
+            /* 🔹 Улучшенное мобильное меню */
             .nav-menu {
                 display: none;
                 position: absolute;
-                top: 65px;
+                top: 100%;
                 left: 0;
                 right: 0;
                 background: #fff;
                 flex-direction: column;
-                padding: 16px 0;
-                box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+                padding: 12px 0;
+                box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
+                border-top: 1px solid rgba(0, 0, 0, 0.05);
+                border-radius: 0 0 12px 12px;
                 text-align: center;
+                animation: dropdownFade 0.25s ease;
                 z-index: 999;
             }
 
@@ -271,16 +283,33 @@
 
                 .nav-menu a {
                     display: block;
-                    padding: 14px 20px;
-                    border-radius: 0;
-                    color: #333;
+                    padding: 14px 0;
+                    color: #2d2d2d;
+                    font-size: 1.05em;
                     font-weight: 500;
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
                 }
 
+                    .nav-menu a:last-child {
+                        border-bottom: none;
+                    }
+
                     .nav-menu a:hover {
-                        background: #e4f2ff;
+                        background: #f2f6ff;
                         color: var(--primary);
                     }
+
+            @keyframes dropdownFade {
+                from {
+                    opacity: 0;
+                    transform: translateY(-8px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
 
             .footer-content {
                 grid-template-columns: 1fr;
@@ -297,8 +326,7 @@
             }
         }
 
-
-        @media(max-width: 480px) {
+        @media (max-width: 480px) {
             footer {
                 margin-top: 60px;
             }
