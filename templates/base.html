@@ -250,7 +250,8 @@
                 padding: 14px 20px;
             }
 
-            .nav-left, .nav-right {
+            /* 🔹 Новый адаптивный стиль меню */
+            .nav-menu {
                 display: none;
                 position: absolute;
                 top: 65px;
@@ -258,21 +259,28 @@
                 right: 0;
                 background: #fff;
                 flex-direction: column;
-                padding: 20px;
+                padding: 16px 0;
                 box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-                gap: 8px;
+                text-align: center;
+                z-index: 999;
             }
 
-                .nav-left.active, .nav-right.active {
+                .nav-menu.active {
                     display: flex;
                 }
 
-                .nav-left a, .nav-right a {
-                    padding: 14px 18px;
-                    text-align: center;
-                    border-radius: 8px;
-                    width: 100%;
+                .nav-menu a {
+                    display: block;
+                    padding: 14px 20px;
+                    border-radius: 0;
+                    color: #333;
+                    font-weight: 500;
                 }
+
+                    .nav-menu a:hover {
+                        background: #e4f2ff;
+                        color: var(--primary);
+                    }
 
             .footer-content {
                 grid-template-columns: 1fr;
@@ -288,6 +296,7 @@
                 padding: 0 20px;
             }
         }
+
 
         @media(max-width: 480px) {
             footer {
@@ -328,11 +337,12 @@
         <nav>
             <a href="/" class="logo">Бухгалтер Гусева Юлия</a>
             <button class="mobile-menu-btn" onclick="toggleMenu()" aria-label="Меню">☰</button>
-            <div class="nav-left">
+
+            <div class="nav-menu">
+                <!-- 🔹 объединяем левую и правую навигацию -->
                 <a href="/" class="{% if request.path == '/' %}active{% endif %}">Главная</a>
                 <a href="/consultation" class="{% if request.path.startswith('/consultation') %}active{% endif %}">Заявка</a>
-            </div>
-            <div class="nav-right">
+
                 {% if session.user %}
                 <a href="/admin">Админ</a>
                 <a href="/logout">Выход</a>
@@ -408,20 +418,15 @@
 
     <script>
         function toggleMenu() {
-            const navLeft = document.querySelector('.nav-left');
-            const navRight = document.querySelector('.nav-right');
-            navLeft.classList.toggle('active');
-            navRight.classList.toggle('active');
+            document.querySelector('.nav-menu').classList.toggle('active');
         }
 
-        // Закрытие меню при клике вне его
-        document.addEventListener('click', function (event) {
-            const nav = document.querySelector('nav');
-            const mobileBtn = document.querySelector('.mobile-menu-btn');
-
-            if (!nav.contains(event.target) && !mobileBtn.contains(event.target)) {
-                document.querySelector('.nav-left').classList.remove('active');
-                document.querySelector('.nav-right').classList.remove('active');
+        // Закрытие при клике вне меню
+        document.addEventListener('click', function (e) {
+            const navMenu = document.querySelector('.nav-menu');
+            const btn = document.querySelector('.mobile-menu-btn');
+            if (!navMenu.contains(e.target) && !btn.contains(e.target)) {
+                navMenu.classList.remove('active');
             }
         });
 
