@@ -438,7 +438,7 @@ from flask import send_from_directory
 # Добавьте этот маршрут для favicon
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory('static', 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+    return send_from_directory('data', 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 # Добавить обработку ошибок
 @app.errorhandler(404)
@@ -480,4 +480,5 @@ def robots():
     return send_from_directory('.', 'robots.txt')
 
 if __name__ == '__main__':
+
     app.run(debug=True)
