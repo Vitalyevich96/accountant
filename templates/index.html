@@ -1,338 +1,1056 @@
 {% extends "base.html" %}
 
-{% block title %}Бухгалтер - Актобе{% endblock %}
+{% block title %}Главная — Профессиональный бухгалтер{% endblock %}
 
 {% block extra_css %}
 <style>
-    .hero {
-        background: linear-gradient(135deg, #00211F 0%, #00B8AB 100%);
+    /* COMMON ELEMENTS */
+    h1 {
         color: white;
-        padding: 80px 20px;
-        border-radius: 10px;
+        font-weight: 700;
+    }
+
+    h2, h3, h4 {
+        color: #007bff;
+        font-weight: 600;
+    }
+
+    section {
+        margin: 80px 0;
+        scroll-margin-top: 80px;
+    }
+
+    /* HERO SECTION */
+    .hero {
+        background: linear-gradient(135deg, #007bff 0%, #00b8a9 100%);
+        color: white;
+        padding: 100px 24px;
         text-align: center;
-        margin-bottom: 60px;
+        border-radius: 24px;
+        box-shadow: 0 20px 60px rgba(0,123,255,0.2);
+        margin-bottom: 80px;
         position: relative;
         overflow: hidden;
     }
 
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(0) rotate(0deg);
+        }
+
+        50% {
+            transform: translateY(-30px) rotate(180deg);
+        }
+    }
+
     .hero-content {
         position: relative;
-        z-index: 2;
+        z-index: 1;
         max-width: 800px;
         margin: 0 auto;
     }
 
     .hero h1 {
         font-size: 3em;
-        margin-bottom: 20px;
         font-weight: 700;
+        margin-bottom: 24px;
+        line-height: 1.2;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
 
     .hero p {
         font-size: 1.3em;
-        margin-bottom: 30px;
-        opacity: 0.9;
+        margin-bottom: 16px;
+        opacity: 0.95;
         line-height: 1.6;
     }
 
-    .btn {
-        display: inline-block;
-        padding: 15px 40px;
-        background-color: white;
-        color: #004F4A;
-        text-decoration: none;
-        border-radius: 8px;
-        font-weight: bold;
+    .hero-contact {
         font-size: 1.1em;
-        transition: transform 0.3s, box-shadow 0.3s;
-        margin: 10px;
+        margin-top: 24px;
+        opacity: 0.9;
     }
 
-    .btn-secondary {
-        background-color: transparent;
-        color: white;
-        border: 2px solid white;
-    }
-
-    .btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    }
-
-    .btn-secondary:hover {
-        background-color: white;
-        color: #004F4A;
-    }
-
-    .features {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 30px;
-        margin: 60px 0;
-    }
-
-    .feature-card {
-        background: white;
-        padding: 40px 30px;
-        border-radius: 15px;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        text-align: center;
-        transition: transform 0.3s;
-        border-top: 4px solid #00B8AC;
-    }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
-
-    .feature-icon {
-        font-size: 3em;
-        margin-bottom: 20px;
-        display: block;
-    }
-
-    .feature-card h3 {
-        color: #004F4A;
-        margin-bottom: 15px;
-        font-size: 1.4em;
-    }
-
-    .feature-card p {
-        color: #333;
-        line-height: 1.6;
-    }
-
-    .services-preview {
-        background: linear-gradient(135deg, white 0%, black 500%);
-        padding: 80px 0;
-        margin: 60px 0;
-        border-radius: 15px;
-    }
-
-    .section-header {
-        text-align: center;
-        margin-bottom: 50px;
-    }
-
-        .section-header h2 {
-            color: #004F4A;
-            font-size: 2.5em;
-            margin-bottom: 15px;
-        }
-
-        .section-header p {
-            color: #666;
-            font-size: 1.2em;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-    .services-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 25px;
-    }
-
-    .service-card {
-        background: white;
-        padding: 30px;
-        border-radius: 12px;
-        box-shadow: 0 3px 15px rgba(0,0,0,0.08);
-        transition: all 0.3s ease;
-        border-left: 4px solid #00B8AC;
-    }
-
-        .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-
-        .service-card h3 {
-            color: #004F4A;
-            margin-bottom: 15px;
-            font-size: 1.3em;
-        }
-
-        .service-card .price {
-            font-weight: bold;
-            color: #F77B6F;
-            margin: 10px 0;
-            font-size: 1.1em;
-        }
-
-        .service-card ul {
-            list-style: none;
-            padding: 0;
-            margin: 15px 0;
-        }
-
-        .service-card li {
-            padding: 5px 0;
-            color: #333;
-            position: relative;
-            padding-left: 20px;
-        }
-
-            .service-card li:before {
-                content: '✓';
-                color: #F77B6F;
-                font-weight: bold;
-                position: absolute;
-                left: 0;
-            }
-
-
-
-    .cta-section {
-        text-align: center;
-        padding: 80px 40px;
-        background: linear-gradient(135deg, #00B8AB 0%, #00211F 100%);
-        border-radius: 15px;
-        box-shadow: 0 5px 25px rgba(0,0,0,0.1);
-        margin: 60px 0;
-    }
-
-        .cta-section h2 {
-            color: white;
-            margin-bottom: 20px;
-            font-size: 2.2em;
-        }
-
-        .cta-section p {
-            color: white;
-            font-size: 1.2em;
-            margin-bottom: 30px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-    .btn-group {
+    .hero-cta {
+        margin-top: 40px;
         display: flex;
         gap: 20px;
         justify-content: center;
         flex-wrap: wrap;
     }
 
-    @media (max-width: 768px) {
-        .hero h1 {
+    .btn-hero {
+        display: inline-block;
+        padding: 16px 40px;
+        font-size: 1.1em;
+        font-weight: 600;
+        text-decoration: none;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+
+    .btn-primary {
+        background: white;
+        color: #007bff;
+    }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+    .btn-secondary {
+        background: transparent;
+        color: white;
+        border-color: white;
+    }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #007bff;
+            transform: translateY(-3px);
+        }
+
+    /* STATS */
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 24px;
+        margin: 60px 0;
+    }
+
+    .stat-item {
+        background: white;
+        padding: 40px 24px;
+        text-align: center;
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+
+        .stat-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,123,255,0.15);
+            border-color: #e4f2ff;
+        }
+
+        .stat-item .number {
+            font-size: 3em;
+            font-weight: 700;
+            color: #007bff;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .stat-item .label {
+            font-size: 1.1em;
+            color: #555;
+            line-height: 1.4;
+            font-weight: 500;
+        }
+
+    /* SERVICES */
+    #services {
+        scroll-margin-top: 100px;
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 60px;
+    }
+
+        .section-header h2 {
+            font-size: 2.5em;
+            color: #007bff;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .section-header p {
+            font-size: 1.15em;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 32px;
+        margin-bottom: 60px;
+    }
+
+    .service-card {
+        background: white;
+        padding: 36px 28px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        border: 2px solid transparent;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #007bff, #00b8a9);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0,123,255,0.15);
+            border-color: #e4f2ff;
+        }
+
+        .service-card h3 {
+            font-size: 1.4em;
+            color: #007bff;
+            margin-bottom: 14px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .service-card .price {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: #ff6b6b;
+            margin: 10px 0 16px 0;
+        }
+
+        .service-card .description {
+            color: #555;
+            margin-bottom: 24px;
+            line-height: 1.6;
+            flex-grow: 1;
+            font-size: 0.98em;
+        }
+
+        .service-card ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+
+            .service-card ul li {
+                margin: 10px 0;
+                padding-left: 28px;
+                position: relative;
+                line-height: 1.5;
+                font-size: 0.95em;
+            }
+
+                .service-card ul li::before {
+                    content: "✓";
+                    position: absolute;
+                    left: 0;
+                    color: #00b8a9;
+                    font-weight: bold;
+                    font-size: 1.2em;
+                }
+
+    /* FEATURES */
+    .features {
+        background: linear-gradient(135deg, #f8f9ff 0%, #e4f2ff 100%);
+        padding: 80px 24px;
+        border-radius: 24px;
+        margin: 80px 0;
+    }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #007bff;
+            margin-bottom: 60px;
+        }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 32px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .feature-item {
+        text-align: center;
+        padding: 36px 24px;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+        transition: all 0.3s ease;
+    }
+
+        .feature-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,123,255,0.12);
+        }
+
+        .feature-item .icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+            display: block;
+            filter: grayscale(0%);
+        }
+
+        .feature-item h4 {
+            font-size: 1.3em;
+            margin-bottom: 12px;
+            color: #007bff;
+            font-weight: 600;
+        }
+
+        .feature-item p {
+            color: #666;
+            line-height: 1.6;
+            margin: 0;
+            font-size: 0.98em;
+        }
+
+    /* PRICING */
+    #pricing {
+        scroll-margin-top: 100px;
+    }
+
+    .pricing-tables {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 32px;
+        margin-bottom: 60px;
+    }
+
+    .pricing-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        overflow: hidden;
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        border: 3px solid transparent;
+    }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,123,255,0.2);
+            border-color: #007bff;
+        }
+
+        .pricing-card.featured {
+            border-color: #00b8a9;
+            position: relative;
+        }
+
+            .pricing-card.featured::before {
+                content: 'Популярный';
+                position: absolute;
+                top: 20px;
+                right: -30px;
+                background: #00b8a9;
+                color: white;
+                padding: 6px 40px;
+                transform: rotate(45deg);
+                font-size: 0.85em;
+                font-weight: 600;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            }
+
+    .pricing-header {
+        background: linear-gradient(135deg, #00b8a9, #007bff);
+        color: white;
+        padding: 40px 24px;
+        text-align: center;
+        margin: 0;
+    }
+
+        .pricing-header h3 {
+            color: white;
+            font-size: 1.6em;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+    .price {
+        font-size: 2.5em;
+        font-weight: 700;
+        margin: 8px 0;
+        display: block;
+    }
+
+    .period {
+        font-size: 0.95em;
+        opacity: 0.9;
+    }
+
+    .pricing-features {
+        padding: 36px 28px;
+        flex-grow: 1;
+    }
+
+        .pricing-features ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .pricing-features li {
+            padding: 14px 0;
+            border-bottom: 1px solid #f0f0f0;
+            padding-left: 32px;
+            position: relative;
+            line-height: 1.5;
+        }
+
+            .pricing-features li:last-child {
+                border-bottom: none;
+            }
+
+            .pricing-features li::before {
+                content: '✓';
+                position: absolute;
+                left: 0;
+                top: 14px;
+                color: #00b8a9;
+                font-weight: bold;
+                font-size: 1.2em;
+            }
+
+    .pricing-footer {
+        text-align: center;
+        padding: 28px 24px;
+        background: #f8f9fa;
+    }
+
+    .btn-pricing {
+        display: inline-block;
+        background: linear-gradient(135deg, #007bff, #0056d6);
+        color: white;
+        padding: 16px 48px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        font-size: 1.05em;
+        border: none;
+        cursor: pointer;
+    }
+
+        .btn-pricing:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,123,255,0.3);
+        }
+
+    /* FAQ */
+    #faq {
+        scroll-margin-top: 100px;
+    }
+
+    .faq-section {
+        margin-top: 80px;
+    }
+
+        .faq-section h2 {
+            text-align: center;
+            font-size: 2.5em;
+            color: #007bff;
+            margin-bottom: 50px;
+            font-weight: 700;
+        }
+
+    .faq-item {
+        background: white;
+        border-radius: 12px;
+        margin-bottom: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+        .faq-item:hover {
+            box-shadow: 0 8px 30px rgba(0,123,255,0.12);
+        }
+
+    .faq-question {
+        padding: 24px 28px;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1.1em;
+        color: #333;
+        transition: all 0.2s;
+        user-select: none;
+    }
+
+        .faq-question:hover {
+            background-color: #f8f9fa;
+            color: #007bff;
+        }
+
+    .faq-toggle {
+        font-size: 1.5em;
+        color: #007bff;
+        font-weight: 300;
+        transition: transform 0.3s ease;
+    }
+
+    .faq-item.active .faq-toggle {
+        transform: rotate(45deg);
+    }
+
+    .faq-answer {
+        padding: 0 28px;
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        color: #555;
+        line-height: 1.7;
+    }
+
+        .faq-answer.active {
+            padding: 0 28px 24px 28px;
+            max-height: 500px;
+        }
+
+    /* CTA */
+    .cta-section {
+        text-align: center;
+        background: linear-gradient(135deg, #00b8a9 0%, #007bff 100%);
+        color: white;
+        padding: 90px 24px;
+        border-radius: 24px;
+        margin: 80px 0;
+        box-shadow: 0 20px 60px rgba(0,123,255,0.2);
+        position: relative;
+        overflow: hidden;
+    }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            bottom: -50%;
+            left: -10%;
+            width: 600px;
+            height: 600px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            animation: float 25s infinite reverse;
+        }
+
+    .cta-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .cta-section h2 {
+        color: white;
+        font-size: 2.5em;
+        margin-bottom: 20px;
+        font-weight: 700;
+    }
+
+    .cta-section p {
+        font-size: 1.25em;
+        margin-bottom: 35px;
+        opacity: 0.95;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.7;
+    }
+
+    .btn-large {
+        background: white;
+        color: #007bff;
+        padding: 18px 50px;
+        font-weight: 700;
+        text-decoration: none;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        font-size: 1.15em;
+        display: inline-block;
+    }
+
+        .btn-large:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+    /* MOBILE OPTIMIZATIONS */
+    @media (max-width: 968px) {
+        section {
+            margin: 60px 0;
+        }
+
+        .hero {
+            padding: 80px 24px;
+        }
+
+            .hero h1 {
+                font-size: 2.4em;
+            }
+
+        .section-header h2 {
             font-size: 2.2em;
         }
 
-        .hero p {
-            font-size: 1.1em;
+        .features {
+            padding: 60px 20px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .hero {
+            padding: 70px 20px;
+            margin-bottom: 60px;
         }
 
-        .btn-group {
+            .hero h1 {
+                font-size: 2em;
+            }
+
+            .hero p {
+                font-size: 1.1em;
+            }
+
+        .hero-cta {
             flex-direction: column;
             align-items: center;
         }
 
-        .btn {
+        .btn-hero {
             width: 100%;
             max-width: 300px;
+        }
+
+        .stats {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin: 40px 0;
+        }
+
+        .stat-item {
+            padding: 32px 20px;
+        }
+
+            .stat-item .number {
+                font-size: 2.5em;
+            }
+
+        .section-header h2 {
+            font-size: 1.9em;
+        }
+
+        .services-grid {
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        .service-card {
+            padding: 28px 24px;
+        }
+
+        .features {
+            padding: 50px 20px;
+            margin: 60px 0;
+        }
+
+            .features h2 {
+                font-size: 1.9em;
+                margin-bottom: 40px;
+            }
+
+        .features-grid {
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        .pricing-tables {
+            grid-template-columns: 1fr;
+            gap: 28px;
+        }
+
+        .faq-section h2 {
+            font-size: 1.9em;
+        }
+
+        .faq-question {
+            padding: 20px;
+            font-size: 1em;
+        }
+
+        .cta-section {
+            padding: 70px 20px;
+        }
+
+            .cta-section h2 {
+                font-size: 2em;
+            }
+    }
+
+    @media (max-width: 480px) {
+        .stats {
+            grid-template-columns: 1fr;
+        }
+
+        .hero h1 {
+            font-size: 1.75em;
+        }
+
+        .btn-pricing, .btn-large {
+            width: 100%;
+            text-align: center;
+        }
+
+        .section-header h2 {
+            font-size: 1.7em;
+        }
+    }
+
+    /* Smooth animations */
+    @media (prefers-reduced-motion: no-preference) {
+        .service-card,
+        .feature-item,
+        .pricing-card,
+        .stat-item,
+        .faq-item {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<!-- Герой секция -->
 <section class="hero">
     <div class="hero-content">
-        <h2>
-            Здравствуйте! Меня зовут Гусева Юлия Александровна.
-            Уже более 15 лет я предоставляю профессиональные бухгалтерские услуги для организаций и индивидуальных предпринимателей.
-            За это время помогла десяткам клиентов наладить учет, оптимизировать налогообложение и чувствовать уверенность в финансовых вопросах.
-            Моя цель — сделать бухгалтерию понятной, прозрачной и надежной опорой для вашего бизнеса.
-        </h2>
-        <div class="btn-group">
-            <a href="/consultation" class="btn">Получить консультацию</a>
-            <a href="/services" class="btn btn-secondary">Все услуги</a>
+        <h1>Профессиональный бухгалтер</h1>
+        <p>20 лет профессионального ведения бухгалтерии и доверия со стороны бизнеса</p>
+        <p class="hero-contact">📞 +7 (701) 362-32-63 · 📧 bukh.df1@mail.ru · 📍 Актобе, Казахстан</p>
+        <div class="hero-cta">
+            <a href="/consultation" class="btn-hero btn-primary">Оставить заявку</a>
+            <a href="#services" class="btn-hero btn-secondary">Узнать больше</a>
         </div>
-
     </div>
-    <h2>+7 (701) 362-32-63</h2>
-    <h2>bukh.df1@mail.ru</h2>
-    <h2>Казахстан г. Актобе</h2>
 </section>
 
-<!-- Ключевые преимущества -->
+<section class="stats">
+    <div class="stat-item">
+        <span class="number">20+</span>
+        <div class="label">Лет работы</div>
+    </div>
+    <div class="stat-item">
+        <span class="number">200+</span>
+        <div class="label">Клиентов</div>
+    </div>
+    <div class="stat-item">
+        <span class="number">1000+</span>
+        <div class="label">Отчетов</div>
+    </div>
+    <div class="stat-item">
+        <span class="number">99%</span>
+        <div class="label">Успех проверок</div>
+    </div>
+</section>
+
+<section id="services" class="services">
+    <div class="section-header">
+        <h2>Наши услуги</h2>
+        <p>Профессиональное бухгалтерское сопровождение для малого и среднего бизнеса</p>
+    </div>
+    <div class="services-grid">
+        {% for key, service in services.items() %}
+        <div class="service-card">
+            <h3>{{ service.name }}</h3>
+            <div class="price">{{ service.price_range }}</div>
+            <div class="description">{{ service.description }}</div>
+            <ul>
+                {% if key == 'bookkeeping' %}
+                <li>Полное ведение учета</li>
+                <li>Налоговое планирование</li>
+                <li>Консультации</li>
+                {% elif key == 'tax_consulting' %}
+                <li>Оптимизация налогов</li>
+                <li>Анализ рисков</li>
+                <li>Консультации по налогам</li>
+                {% elif key == 'reporting' %}
+                <li>Подготовка отчётности</li>
+                <li>Сдача в контролирующие органы</li>
+                <li>Электронная отчётность</li>
+                {% elif key == 'audit' %}
+                <li>Проверка учета</li>
+                <li>Анализ рисков</li>
+                <li>Рекомендации по улучшению</li>
+                {% elif key == 'registration' %}
+                <li>Документы</li>
+                <li>Регистрация в фондах</li>
+                <li>Открытие счета</li>
+                {% elif key == 'salary' %}
+                <li>Расчет зарплаты</li>
+                <li>Налоги и взносы</li>
+                <li>Отчётность по сотрудникам</li>
+                {% endif %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
 <section class="features">
-    <div class="feature-card">
-        <span class="feature-icon">💰</span>
-        <h3>Экономия до 40%</h3>
-        <p>Снижаем ваши затраты на содержание штатного бухгалтера и оптимизируем налоговую нагрузку</p>
-    </div>
-    <div class="feature-card">
-        <span class="feature-icon">⚡</span>
-        <h3>Оперативность</h3>
-        <p>Своевременная сдача отчетности и быстрая реакция на изменения в законодательстве</p>
-    </div>
-    <div class="feature-card">
-        <span class="feature-icon">🛡️</span>
-        <h3>Защита от штрафов</h3>
-        <p>Гарантия отсутствия ошибок и полная защита от налоговых санкций и штрафов</p>
+    <h2>Почему выбирают нас</h2>
+    <div class="features-grid">
+        <div class="feature-item">
+            <div class="icon">⚡</div>
+            <h4>Оперативность</h4>
+            <p>Быстрое решение задач и своевременная отчётность</p>
+        </div>
+        <div class="feature-item">
+            <div class="icon">🔒</div>
+            <h4>Конфиденциальность</h4>
+            <p>Надёжная защита данных и полная конфиденциальность</p>
+        </div>
+        <div class="feature-item">
+            <div class="icon">💼</div>
+            <h4>Опыт</h4>
+            <p>15 лет успешной работы с различными видами бизнеса</p>
+        </div>
+        <div class="feature-item">
+            <div class="icon">📞</div>
+            <h4>Поддержка</h4>
+            <p>Консультации и помощь в любое время</p>
+        </div>
     </div>
 </section>
 
-<!-- Предпросмотр услуг -->
-<section class="services-preview">
-    <div class="container">
-        <div class="section-header">
-            <h2>Наши услуги</h2>
-            <p>Комплексные бухгалтерские решения для вашего бизнеса</p>
+<section id="pricing" class="pricing">
+    <div class="section-header">
+        <h2>Тарифы</h2>
+        <p>Честные и прозрачные цены — без скрытых платежей</p>
+    </div>
+    <div class="pricing-tables">
+        <div class="pricing-card">
+            <div class="pricing-header">
+                <h3>Начальный</h3>
+                <div class="price">50 000 ₸</div>
+                <div class="period">в месяц</div>
+            </div>
+            <div class="pricing-features">
+                <ul>
+                    <li>Ведение учёта для ИП</li>
+                    <li>Основная отчётность</li>
+                    <li>Email-консультации</li>
+                    <li>Поддержка 5/7</li>
+                </ul>
+            </div>
+            <div class="pricing-footer">
+                <a href="/consultation" class="btn-pricing">Выбрать тариф</a>
+            </div>
         </div>
-        <div class="services-grid">
-            <div class="service-card">
-                <h3>📊 Ведение бухгалтерии</h3>
-                <div class="price">от 50 000 тенге/мес</div>
-                <p>Полное ведение бухгалтерского и налогового учета</p>
-                <ul>
-                    <li>Ежемесячное закрытие</li>
-                    <li>Работа с первичкой</li>
-                    <li>Учет ОС и МПЗ</li>
-                </ul>
+
+        <div class="pricing-card featured">
+            <div class="pricing-header">
+                <h3>Бизнес</h3>
+                <div class="price">100 000 ₸</div>
+                <div class="period">в месяц</div>
             </div>
-            <div class="service-card">
-                <h3>📋 Налоговая отчетность</h3>
-                <div class="price">от 15 000 тенге</div>
-                <p>Подготовка и сдача всей необходимой отчетности</p>
+            <div class="pricing-features">
                 <ul>
-                    <li>Налоговые декларации</li>
-                    <li>Статистическая отчетность</li>
-                    <li>Электронная сдача</li>
-                </ul>
-            </div>
-            <div class="service-card">
-                <h3>👨‍💼 Консультации</h3>
-                <div class="price">Бесплатно</div>
-                <p>Профессиональные консультации по всем вопросам</p>
-                <ul>
+                    <li>Учёт для ТОО / ООО</li>
+                    <li>Расширенная отчётность</li>
                     <li>Налоговое планирование</li>
-                    <li>Анализ рисков</li>
-                    <li>Оптимизация процессов</li>
+                    <li>Телефонные консультации</li>
+                    <li>Поддержка 24/7</li>
                 </ul>
             </div>
+            <div class="pricing-footer">
+                <a href="/consultation" class="btn-pricing">Выбрать тариф</a>
+            </div>
         </div>
-        <div style="text-align: center; margin-top: 40px;">
-            <a href="/services" class="btn">Смотреть все услуги</a>
+
+        <div class="pricing-card">
+            <div class="pricing-header">
+                <h3>Премиум</h3>
+                <div class="price">150 000 ₸</div>
+                <div class="period">в месяц</div>
+            </div>
+            <div class="pricing-features">
+                <ul>
+                    <li>Полное бухгалтерское сопровождение</li>
+                    <li>Налоговая оптимизация</li>
+                    <li>Персональный бухгалтер</li>
+                    <li>Выездные консультации</li>
+                    <li>Финансовый анализ</li>
+                </ul>
+            </div>
+            <div class="pricing-footer">
+                <a href="/consultation" class="btn-pricing">Выбрать тариф</a>
+            </div>
         </div>
     </div>
 </section>
 
+<section id="faq" class="faq-section">
+    <h2>Частые вопросы</h2>
+    <div class="faq-item">
+        <div class="faq-question">
+            <span>Как начинается работа?</span>
+            <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+            Мы анализируем вашу текущую ситуацию, заключаем договор и настраиваем учёт. Первая консультация бесплатна.
+        </div>
+    </div>
+    <div class="faq-item">
+        <div class="faq-question">
+            <span>Можно ли сменить тариф?</span>
+            <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+            Да, вы можете перейти на другой тариф в любой момент — изменения вступают в силу со следующего месяца.
+        </div>
+    </div>
+    <div class="faq-item">
+        <div class="faq-question">
+            <span>Какие документы нужны?</span>
+            <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+            Учредительные документы, ИНН, регистрация, данные по текущему учёту. Мы поможем собрать всё необходимое.
+        </div>
+    </div>
+    <div class="faq-item">
+        <div class="faq-question">
+            <span>Как проходит взаимодействие?</span>
+            <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+            Вся работа ведётся удалённо через защищённые каналы связи. Встречи проводятся по необходимости или по вашему желанию.
+        </div>
+    </div>
+    <div class="faq-item">
+        <div class="faq-question">
+            <span>Что включено в стоимость?</span>
+            <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+            В стоимость тарифа входит всё, что указано в описании. Дополнительные услуги оплачиваются отдельно по договорённости.
+        </div>
+    </div>
+</section>
 
-
-<!-- Призыв к действию -->
 <section class="cta-section">
-    <div class="container">
-        <h2>Готовы передать бухгалтерию в надежные руки?</h2>
-        <p>Оставьте заявку прямо сейчас и получите бесплатный анализ вашей текущей ситуации с рекомендациями по оптимизации</p>
-        <div class="btn-group">
-            <a href="/consultation" class="btn">Оставить заявку</a>
-            <a href="/pricing" class="btn btn-secondary">Посмотреть цены</a>
-        </div>
-        <p>Сегодня — лучший день доверить бухгалтерию профессионалам. Мы возьмём на себя все заботы, чтобы вы работали спокойно и уверенно. С нами бухгалтерия — это порядок и уверенность без лишних волнений.</p>
+    <div class="cta-content">
+        <h2>Готовы сотрудничать?</h2>
+        <p>Оставьте заявку и получите бесплатную консультацию по оптимизации вашей бухгалтерии</p>
+        <a href="/consultation" class="btn-large">Оставить заявку</a>
     </div>
 </section>
+
+<script>
+    // FAQ Toggle
+    document.querySelectorAll('.faq-question').forEach(q => {
+        q.addEventListener('click', () => {
+            const item = q.closest('.faq-item');
+            const answer = q.nextElementSibling;
+            const toggle = q.querySelector('.faq-toggle');
+
+            // Close all other items
+            document.querySelectorAll('.faq-item').forEach(otherItem => {
+                if (otherItem !== item) {
+                    otherItem.classList.remove('active');
+                    otherItem.querySelector('.faq-answer').classList.remove('active');
+                    otherItem.querySelector('.faq-toggle').textContent = '+';
+                }
+            });
+
+            // Toggle current item
+            item.classList.toggle('active');
+            answer.classList.toggle('active');
+            toggle.textContent = answer.classList.contains('active') ? '−' : '+';
+        });
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (href !== '#' && document.querySelector(href)) {
+                e.preventDefault();
+                const target = document.querySelector(href);
+                const headerOffset = 100;
+                const elementPosition = target.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
+    // Add animation on scroll
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -100px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    // Observe elements with animation
+    document.querySelectorAll('.service-card, .feature-item, .pricing-card, .stat-item').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+</script>
 {% endblock %}

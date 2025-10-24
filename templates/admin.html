@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Админ панель{% endblock %}
+{% block title %}Админ панель - Заявки{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -15,60 +15,58 @@
 
         .admin-header h2 {
             margin: 0;
-            color: #004F4A;
+            color: #007bff;
+            font-size: 1.8em;
+            font-weight: 600;
         }
 
-        .admin-header > div:last-child {
-            font-size: 1.1em;
-            color: #666;
-        }
+    .stats-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
 
-    .filter-section {
+    .stat-card {
         background: white;
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        margin-bottom: 30px;
+        text-align: center;
     }
 
-        .filter-section form {
-            display: flex;
-            gap: 15px;
-            align-items: flex-end;
-            flex-wrap: wrap;
-        }
+    .stat-number {
+        font-size: 2em;
+        font-weight: bold;
+        color: #007bff;
+        display: block;
+    }
 
-        .filter-section label {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            font-weight: bold;
-            color: #333;
-        }
+    /* Фильтры и управление */
+    .admin-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
 
-        .filter-section select {
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1em;
-            min-width: 150px;
-        }
+    .filters {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
 
-        .filter-section button {
-            padding: 8px 20px;
-            background: linear-gradient(135deg, #00B8AB 0%, #00211F 100%);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: transform 0.2s;
-        }
+    .filter-select {
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background: white;
+    }
 
-            .filter-section button:hover {
-                transform: translateY(-2px);
-            }
-
+    /* Таблица заявок */
     .requests-table {
         width: 100%;
         border-collapse: collapse;
@@ -76,226 +74,413 @@
         box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         border-radius: 8px;
         overflow: hidden;
-        table-layout: fixed;
+        margin-bottom: 30px;
     }
 
         .requests-table th,
         .requests-table td {
             padding: 12px 15px;
             text-align: left;
-            border: 1px solid #ddd;
-            word-wrap: break-word;
+            border-bottom: 1px solid #ddd;
         }
 
         .requests-table th {
-            background-color: #00B8AC;
+            background-color: #007bff;
             color: #fff;
             font-weight: 600;
-            text-align: left;
         }
 
-        .requests-table tbody tr {
-            transition: background-color 0.2s;
-        }
-
-            .requests-table tbody tr:nth-child(even) {
-                background-color: #f9f9f9;
+            /* Расширяем столбец статуса */
+            .requests-table th:nth-child(7),
+            .requests-table td:nth-child(7) {
+                min-width: 140px;
+                white-space: nowrap;
             }
 
-            .requests-table tbody tr:hover {
-                background-color: #f0f0ff;
-            }
-
-    .status-badge {
-        display: inline-block;
-        padding: 6px 14px;
-        border-radius: 20px;
-        font-weight: bold;
+    .status-new {
+        background-color: #ffebee;
+        color: #c62828;
+        padding: 4px 8px;
+        border-radius: 4px;
         font-size: 0.85em;
-        text-align: center;
+        font-weight: 500;
+        white-space: nowrap;
     }
 
-    .status-новая {
-        background-color: #cce5ff;
-        color: #004085;
+    .status-in_progress {
+        background-color: #fff3e0;
+        color: #ef6c00;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.85em;
+        font-weight: 500;
+        white-space: nowrap;
     }
 
-    .status-в_процессе {
-        background-color: #fff3cd;
-        color: #856404;
+    .status-completed {
+        background-color: #e8f5e8;
+        color: #2e7d32;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.85em;
+        font-weight: 500;
+        white-space: nowrap;
     }
 
-    .status-завершена {
-        background-color: #d4edda;
-        color: #155724;
+    .action-buttons {
+        display: flex;
+        gap: 8px;
+        flex-wrap: nowrap;
+        min-width: 180px;
     }
 
     .btn-small {
         padding: 6px 12px;
         border: none;
-        border-radius: 5px;
+        border-radius: 4px;
         cursor: pointer;
         font-size: 0.85em;
-        font-weight: bold;
         text-decoration: none;
         display: inline-block;
-        margin-right: 5px;
-        transition: opacity 0.2s;
+        transition: all 0.2s;
+        white-space: nowrap;
+        flex-shrink: 0;
     }
 
-        .btn-small:hover {
-            opacity: 0.8;
-        }
-
-    .btn-status {
+    .btn-success {
         background-color: #28a745;
         color: white;
     }
 
-    .btn-delete {
+    .btn-warning {
+        background-color: #ffc107;
+        color: black;
+    }
+
+    .btn-danger {
         background-color: #dc3545;
         color: white;
     }
 
-    .action-buttons {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 5px;
+    .btn-info {
+        background-color: #17a2b8;
+        color: white;
     }
 
-        .action-buttons form {
-            display: inline;
-        }
+    /* Улучшенные стили для кнопок */
+    .btn-process {
+        background: linear-gradient(135deg, #ffc107, #ff9800);
+        color: white;
+        font-weight: 600;
+        box-shadow: 0 2px 4px rgba(255, 152, 0, 0.3);
+    }
+
+    .btn-complete {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: white;
+        font-weight: 600;
+        box-shadow: 0 2px 4px rgba(40, 167, 69, 0.3);
+    }
+
+    .btn-delete {
+        background: linear-gradient(135deg, #dc3545, #c82333);
+        color: white;
+        font-weight: 600;
+        box-shadow: 0 2px 4px rgba(220, 53, 69, 0.3);
+    }
+
+    .btn-small:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .btn-process:hover {
+        background: linear-gradient(135deg, #ff9800, #f57c00);
+        box-shadow: 0 4px 8px rgba(255, 152, 0, 0.4);
+    }
+
+    .btn-complete:hover {
+        background: linear-gradient(135deg, #20c997, #1ba87e);
+        box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4);
+    }
+
+    .btn-delete:hover {
+        background: linear-gradient(135deg, #c82333, #a71e2a);
+        box-shadow: 0 4px 8px rgba(220, 53, 69, 0.4);
+    }
 
     .empty-message {
         text-align: center;
         padding: 60px 20px;
-        color: #999;
-        font-size: 1.1em;
+        color: #666;
         background: white;
         border-radius: 10px;
         box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        font-size: 1.1em;
+        line-height: 1.5;
     }
 
     .message-text {
         display: block;
         margin-bottom: 15px;
-        font-size: 1.3em;
+        font-size: 2em;
+        opacity: 0.7;
     }
 
-    /* Колонки таблицы */
-    .table-id {
-        width: 5%;
+    /* Модальное окно */
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
     }
 
-    .table-name {
-        width: 12%;
+    .modal-content {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        max-width: 600px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+        position: relative;
     }
 
-    .table-email {
-        width: 15%;
+    .modal-close {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        background: none;
+        border: none;
+        font-size: 1.5em;
+        cursor: pointer;
+        color: #666;
+        padding: 5px;
     }
 
-    .table-phone {
-        width: 12%;
+        .modal-close:hover {
+            color: #333;
+        }
+
+    .modal-header {
+        margin-bottom: 20px;
+        padding-right: 30px;
     }
 
-    .table-message {
-        width: 20%;
+        .modal-header h3 {
+            color: #007bff;
+            margin-bottom: 10px;
+            font-size: 1.4em;
+        }
+
+    .request-details {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-bottom: 20px;
     }
 
-    .table-date {
-        width: 12%;
+    .detail-item {
+        margin-bottom: 12px;
     }
 
-    .table-status {
-        width: 10%;
+    .detail-label {
+        font-weight: 600;
+        color: #555;
+        font-size: 0.9em;
+        margin-bottom: 4px;
     }
 
-    .table-actions {
-        width: 14%;
+    .detail-value {
+        color: #333;
+        word-break: break-word;
+    }
+
+    .message-section {
+        grid-column: 1 / -1;
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 10px;
+    }
+
+        .message-section .detail-label {
+            color: #007bff;
+        }
+
+    .message-content {
+        line-height: 1.5;
+        white-space: pre-wrap;
+    }
+
+    /* Стиль для кликабельных строк */
+    .clickable-row {
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+        .clickable-row:hover {
+            background-color: #f8f9fa;
+        }
+
+    /* Адаптивность */
+    @media(max-width: 768px) {
+        .admin-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .stats-cards {
+            grid-template-columns: 1fr;
+        }
+
+        .admin-controls {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .requests-table {
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+            min-width: 120px;
+        }
+
+        .btn-small {
+            padding: 8px 10px;
+            font-size: 0.8em;
+            text-align: center;
+        }
+
+        .request-details {
+            grid-template-columns: 1fr;
+        }
+
+        .modal-content {
+            padding: 20px 15px;
+        }
+
+        /* На мобильных уменьшаем минимальную ширину столбца статуса */
+        .requests-table th:nth-child(7),
+        .requests-table td:nth-child(7) {
+            min-width: 120px;
+        }
+    }
+
+    @media(max-width: 480px) {
+        /* На очень маленьких экранах делаем еще меньше */
+        .requests-table th:nth-child(7),
+        .requests-table td:nth-child(7) {
+            min-width: 100px;
+        }
     }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="admin-header">
-    <h2>Заявки на консультацию</h2>
-    <div>Всего заявок: <strong>{{ requests|length }}</strong></div>
+    <h2>Управление заявками</h2>
 </div>
 
-<div class="filter-section">
-    <form method="GET" id="filter-form">
-        <label>
-            Месяц:
-            <select name="month" required id="month-select">
-                {% for y, m in available_months %}
-                {% if m == current_month and y == current_year %}
-                <option value="{{ m }}" selected data-year="{{ y }}">{{ month_names[m] }} {{ y }}</option>
-                {% else %}
-                <option value="{{ m }}" data-year="{{ y }}">{{ month_names[m] }} {{ y }}</option>
-                {% endif %}
-                {% endfor %}
-            </select>
-        </label>
-        <input type="hidden" name="year" id="year-input" value="{{ current_year }}">
-        <button type="submit">Показать</button>
-    </form>
-    <script>
-        document.getElementById('month-select').addEventListener('change', function () {
-            const selectedOption = this.options[this.selectedIndex];
-            document.getElementById('year-input').value = selectedOption.dataset.year;
-        });
-    </script>
+<!-- Статистика по заявкам -->
+<div class="stats-cards">
+    <div class="stat-card">
+        <span class="stat-number">{{ stats.total }}</span>
+        <span>Всего заявок</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-number">{{ stats.new }}</span>
+        <span>Новых</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-number">{{ stats.in_progress }}</span>
+        <span>В процессе</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-number">{{ stats.completed }}</span>
+        <span>Завершено</span>
+    </div>
 </div>
 
+<!-- Фильтры -->
+<div class="admin-controls">
+    <div class="filters">
+        <select class="filter-select" onchange="location = this.value;">
+            <option value="/admin">Все статусы</option>
+            <option value="/admin?status=новая">Только новые</option>
+            <option value="/admin?status=в_процессе">В процессе</option>
+            <option value="/admin?status=завершена">Завершённые</option>
+        </select>
+    </div>
+</div>
+
+<!-- Таблица заявок -->
 {% if requests %}
 <table class="requests-table">
     <thead>
         <tr>
-            <th class="table-id">ID</th>
-            <th class="table-name">Имя</th>
-            <th class="table-email">Email</th>
-            <th class="table-phone">Телефон</th>
-            <th class="table-message">Сообщение</th>
-            <th class="table-date">Дата</th>
-            <th class="table-status">Статус</th>
-            <th class="table-actions">Действия</th>
+            <th>ID</th>
+            <th>Имя</th>
+            <th>Телефон</th>
+            <th>Email</th>
+            <th>Услуга</th>
+            <th>Дата</th>
+            <th>Статус</th>
+            <th>Действия</th>
         </tr>
     </thead>
     <tbody>
-        {% for request in requests %}
-        <tr>
-            <td class="table-id">#{{ request.id }}</td>
-            <td class="table-name">{{ request.name }}</td>
-            <td class="table-email">{{ request.email }}</td>
-            <td class="table-phone">{{ request.phone }}</td>
-            <td class="table-message" title="{{ request.message }}">{{ request.message[:45] }}{% if request.message|length > 45 %}...{% endif %}</td>
-            <td class="table-date">{{ request.date }}</td>
-            <td class="table-status">
-                <span class="status-badge status-{{ request.status }}">
-                    {% if request.status == 'новая' %}Новая
-                    {% elif request.status == 'в_процессе' %}В процессе
-                    {% else %}Завершена
-                    {% endif %}
-                </span>
+        {% for req in requests %}
+        <tr class="clickable-row" data-request='{{ req | tojson | safe }}'>
+            <td><strong>#{{ req.id }}</strong></td>
+            <td>{{ req.name }}</td>
+            <td>{{ req.phone }}</td>
+            <td>{{ req.email }}</td>
+            <td>
+                {% if req.service_type in services %}
+                {{ services[req.service_type].name }}
+                {% else %}
+                {{ req.service_type }}
+                {% endif %}
             </td>
-            <td class="table-actions">
+            <td>{{ req.date }}</td>
+            <td>
+                {% if req.status == 'новая' %}
+                <span class="status-new">Новая</span>
+                {% elif req.status == 'в_процессе' %}
+                <span class="status-in_progress">В процессе</span>
+                {% elif req.status == 'завершена' %}
+                <span class="status-completed">Завершена</span>
+                {% else %}
+                {{ req.status }}
+                {% endif %}
+            </td>
+            <td>
                 <div class="action-buttons">
-                    {% if request.status != 'завершена' %}
-                    <form method="POST" style="display: inline;">
-                        <button type="submit" class="btn-small btn-status"
-                                formaction="/admin/update-status/{{ request.id }}/завершена?year={{ current_year }}&month={{ current_month }}">
-                            ✓ Завершить
-                        </button>
+                    {% if req.status == 'новая' %}
+                    <form method="POST" action="/admin/update-status/{{ req.id }}/в_процессе" style="display: inline;">
+                        <button type="submit" class="btn-small btn-process" onclick="event.stopPropagation()">В процессе</button>
+                    </form>
+                    {% elif req.status == 'в_процессе' %}
+                    <form method="POST" action="/admin/update-status/{{ req.id }}/завершена" style="display: inline;">
+                        <button type="submit" class="btn-small btn-complete" onclick="event.stopPropagation()">Завершить</button>
                     </form>
                     {% endif %}
-                    <form method="POST" style="display: inline;">
-                        <button type="submit" class="btn-small btn-delete"
-                                onclick="return confirm('Вы уверены?')"
-                                formaction="/admin/delete/{{ request.id }}?year={{ current_year }}&month={{ current_month }}">
-                            🗑 Удалить
-                        </button>
+
+                    <form method="POST" action="/admin/delete/{{ req.id }}" style="display: inline;"
+                          onsubmit="return confirm('Удалить заявку #{{ req.id }}?')">
+                        <button type="submit" class="btn-small btn-delete" onclick="event.stopPropagation()">Удалить</button>
                     </form>
                 </div>
             </td>
@@ -305,8 +490,146 @@
 </table>
 {% else %}
 <div class="empty-message">
-    <span class="message-text">📭</span>
-    Нет заявок на консультацию за выбранный период
+    <span class="message-text">📋</span>
+    <p>Заявок пока нет</p>
+    <p><small>Заявки, созданные через форму консультации, появятся здесь</small></p>
 </div>
 {% endif %}
+
+<!-- Модальное окно для просмотра заявки -->
+<div id="requestModal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeRequestModal()">×</button>
+        <div class="modal-header">
+            <h3>Заявка #<span id="modalRequestId"></span></h3>
+            <div id="modalRequestStatus"></div>
+        </div>
+
+        <div class="request-details">
+            <div class="detail-item">
+                <div class="detail-label">Имя:</div>
+                <div class="detail-value" id="modalName"></div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Email:</div>
+                <div class="detail-value" id="modalEmail"></div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Телефон:</div>
+                <div class="detail-value" id="modalPhone"></div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Услуга:</div>
+                <div class="detail-value" id="modalService"></div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Тип компании:</div>
+                <div class="detail-value" id="modalCompanyType"></div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Срочность:</div>
+                <div class="detail-value" id="modalUrgency"></div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Дата заявки:</div>
+                <div class="detail-value" id="modalDate"></div>
+            </div>
+
+            <div class="message-section">
+                <div class="detail-label">Сообщение:</div>
+                <div class="detail-value message-content" id="modalMessage"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function openRequestModal(rowElement) {
+        try {
+            const request = JSON.parse(rowElement.getAttribute('data-request'));
+
+            // Заполняем модальное окно данными
+            document.getElementById('modalRequestId').textContent = request.id;
+            document.getElementById('modalName').textContent = request.name;
+            document.getElementById('modalEmail').textContent = request.email;
+            document.getElementById('modalPhone').textContent = request.phone;
+
+            // Получаем название услуги из соответствующей ячейки таблицы
+            const serviceCell = rowElement.cells[4]; // 5-я ячейка (индекс 4) - услуга
+            document.getElementById('modalService').textContent = serviceCell.textContent.trim();
+
+            document.getElementById('modalCompanyType').textContent = request.company_type || 'Не указано';
+
+            // Преобразуем срочность
+            let urgencyText = request.urgency;
+            if (request.urgency === 'standard') urgencyText = 'Стандартная (1–2 дня)';
+            else if (request.urgency === 'urgent') urgencyText = 'Срочная (в течение дня)';
+            else if (request.urgency === 'very_urgent') urgencyText = 'Очень срочная (несколько часов)';
+            document.getElementById('modalUrgency').textContent = urgencyText;
+
+            document.getElementById('modalDate').textContent = request.date;
+            document.getElementById('modalMessage').textContent = request.message || 'Сообщение не указано';
+
+            // Устанавливаем статус
+            const statusElement = document.getElementById('modalRequestStatus');
+            let statusHtml = '';
+            if (request.status === 'новая') {
+                statusHtml = '<span class="status-new">Новая</span>';
+            } else if (request.status === 'в_процессе') {
+                statusHtml = '<span class="status-in_progress">В процессе</span>';
+            } else if (request.status === 'завершена') {
+                statusHtml = '<span class="status-completed">Завершена</span>';
+            } else {
+                statusHtml = request.status;
+            }
+            statusElement.innerHTML = statusHtml;
+
+            // Показываем модальное окно
+            document.getElementById('requestModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        } catch (error) {
+            console.error('Error opening modal:', error);
+        }
+    }
+
+    function closeRequestModal() {
+        document.getElementById('requestModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    // Обработчик клика по строкам таблицы
+    document.addEventListener('DOMContentLoaded', function () {
+        const rows = document.querySelectorAll('.clickable-row');
+        rows.forEach(row => {
+            row.addEventListener('click', function (e) {
+                // Проверяем, не был ли клик по кнопке внутри строки
+                if (!e.target.closest('form') && !e.target.closest('button')) {
+                    openRequestModal(this);
+                }
+            });
+        });
+    });
+
+    // Закрытие модального окна при клике вне его
+    document.getElementById('requestModal').addEventListener('click', function (e) {
+        if (e.target === this) {
+            closeRequestModal();
+        }
+    });
+
+    // Закрытие модального окна по ESC
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            closeRequestModal();
+        }
+    });
+</script>
 {% endblock %}
