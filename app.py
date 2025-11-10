@@ -76,6 +76,21 @@ def load_requests(year=None, month=None):
             return json.load(f)
     return []
 
+def load_all_requests():
+    """Загрузить все заявки из всех файлов"""
+    ensure_data_folder()
+    all_requests = []
+    
+    for filename in sorted(os.listdir(DATA_FOLDER)):
+        if filename.startswith('requests_') and filename.endswith('.json'):
+            filepath = os.path.join(DATA_FOLDER, filename)
+            with open(filepath, 'r', encoding='utf-8') as f:
+                month_requests = json.load(f)
+                all_requests.extend(month_requests)
+    
+    return all_requests
+
+
 def save_requests(requests_list, year=None, month=None):
     """Сохранить заявки в файл"""
     if year is None or month is None:
@@ -236,23 +251,17 @@ def login():
 @login_required
 def admin_panel():
     """Админ панель с заявками"""
-    year = request.args.get('year', type=int)
-    month = request.args.get('month', type=int)
     status_filter = request.args.get('status', '')
     
-    current_year, current_month = get_current_month_year()
-    available_months = get_available_months()
-    
-    if year is None or month is None:
-        year, month = current_year, current_month
-    
-    requests_list = load_requests(year, month)
+    # Загружаем все заявки из всех месяцев
+    requests_list = load_all_requests()
     
     # Фильтрация по статусу
     if status_filter:
         requests_list = [r for r in requests_list if r['status'] == status_filter]
     
-    requests_list.sort(key=lambda x: x['id'], reverse=True)
+    # Сортируем по дате в обратном порядке (новые сверху)
+    requests_list.sort(key=lambda x: datetime.strptime(x['date'], '%d.%m.%Y %H:%M:%S'), reverse=True)
     
     # Статистика
     stats = {
@@ -262,104 +271,97 @@ def admin_panel():
         'completed': len([r for r in requests_list if r['status'] == 'завершена'])
     }
     
-    month_names = ['', 'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
-                   'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
-    
     return render_template('admin.html', 
                          requests=requests_list,
-                         available_months=available_months,
-                         current_year=year,
-                         current_month=month,
-                         month_names=month_names,
                          stats=stats,
                          status_filter=status_filter,
                          services=SERVICES)
-
-
-
 @app.route('/admin/delete/<int:request_id>', methods=['POST'])
 @login_required
 def delete_request(request_id):
     """Удалить заявку"""
-    year = request.args.get('year', type=int)
-    month = request.args.get('month', type=int)
-    current_year, current_month = get_current_month_year()
+    # Ищем заявку во всех файлах
+    available_months = get_available_months()
     
-    if year is None or month is None:
-        year, month = current_year, current_month
+    for year, month in available_months:
+        requests_list = load_requests(year, month)
+        for req in requests_list:
+            if req['id'] == request_id:
+                # Удаляем заявку из этого месяца
+                requests_list = [r for r in requests_list if r['id'] != request_id]
+                save_requests(requests_list, year, month)
+                flash('Заявка удалена', 'success')
+                return redirect(url_for('admin_panel'))
     
-    requests_list = load_requests(year, month)
-    requests_list = [r for r in requests_list if r['id'] != request_id]
-    save_requests(requests_list, year, month)
-    flash('Заявка удалена', 'success')
-    return redirect(url_for('admin_panel', year=year, month=month))
+    flash('Заявка не найдена', 'error')
+    return redirect(url_for('admin_panel'))
 
 @app.route('/admin/update-status/<int:request_id>/<status>', methods=['POST'])
 @login_required
 def update_status(request_id, status):
     """Обновить статус заявки"""
-    year = request.args.get('year', type=int)
-    month = request.args.get('month', type=int)
-    current_year, current_month = get_current_month_year()
-    
-    if year is None or month is None:
-        year, month = current_year, current_month
-    
     valid_statuses = ['новая', 'в_процессе', 'завершена']
     if status not in valid_statuses:
         flash('Неверный статус', 'error')
-        return redirect(url_for('admin_panel', year=year, month=month))
+        return redirect(url_for('admin_panel'))
     
-    requests_list = load_requests(year, month)
-    for r in requests_list:
-        if r['id'] == request_id:
-            r['status'] = status
-            break
-    save_requests(requests_list, year, month)
-    flash('Статус обновлен', 'success')
-    return redirect(url_for('admin_panel', year=year, month=month))
+    # Ищем заявку во всех файлах
+    available_months = get_available_months()
+    
+    for year, month in available_months:
+        requests_list = load_requests(year, month)
+        for req in requests_list:
+            if req['id'] == request_id:
+                # Обновляем статус в этом месяце
+                req['status'] = status
+                save_requests(requests_list, year, month)
+                flash('Статус обновлен', 'success')
+                return redirect(url_for('admin_panel'))
+    
+    flash('Заявка не найдена', 'error')
+    return redirect(url_for('admin_panel'))
 
 @app.route('/admin/add-note/<int:request_id>', methods=['POST'])
 @login_required
 def add_note(request_id):
     """Добавить заметку к заявке"""
-    year = request.args.get('year', type=int)
-    month = request.args.get('month', type=int)
     note = request.form.get('note', '').strip()
     
-    current_year, current_month = get_current_month_year()
-    if year is None or month is None:
-        year, month = current_year, current_month
+    # Ищем заявку во всех файлах
+    available_months = get_available_months()
     
-    requests_list = load_requests(year, month)
-    for r in requests_list:
-        if r['id'] == request_id:
-            r['notes'] = note
-            break
-    save_requests(requests_list, year, month)
-    flash('Заметка добавлена', 'success')
-    return redirect(url_for('admin_panel', year=year, month=month))
+    for year, month in available_months:
+        requests_list = load_requests(year, month)
+        for req in requests_list:
+            if req['id'] == request_id:
+                req['notes'] = note
+                save_requests(requests_list, year, month)
+                flash('Заметка добавлена', 'success')
+                return redirect(url_for('admin_panel'))
+    
+    flash('Заявка не найдена', 'error')
+    return redirect(url_for('admin_panel'))
 
 @app.route('/admin/assign-to/<int:request_id>', methods=['POST'])
 @login_required
 def assign_request(request_id):
     """Назначить заявку сотруднику"""
-    year = request.args.get('year', type=int)
-    month = request.args.get('month', type=int)
     assigned_to = request.form.get('assigned_to', '').strip()
     
-    current_year, current_month = get_current_month_year()
-    if year is None or month is None:
-        year, month = current_year, current_month
+    # Ищем заявку во всех файлах
+    available_months = get_available_months()
     
-    requests_list = load_requests(year, month)
-    for r in requests_list:
-        if r['id'] == request_id:
-            r['assigned_to'] = assigned_to
-            break
-    save_requests(requests_list, year, month)
-    flash('Заявка назначена', 'success')
-    return redirect(url_for('admin_panel', year=year, month=month))
+    for year, month in available_months:
+        requests_list = load_requests(year, month)
+        for req in requests_list:
+            if req['id'] == request_id:
+                req['assigned_to'] = assigned_to
+                save_requests(requests_list, year, month)
+                flash('Заявка назначена', 'success')
+                return redirect(url_for('admin_panel'))
+    
+    flash('Заявка не найдена', 'error')
+    return redirect(url_for('admin_panel'))
 
 @app.route('/logout')
 def logout():
@@ -438,7 +440,7 @@ from flask import send_from_directory
 # Добавьте этот маршрут для favicon
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory('data', 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+    return send_from_directory('static', 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 # Добавить обработку ошибок
 @app.errorhandler(404)
@@ -480,5 +482,4 @@ def robots():
     return send_from_directory('.', 'robots.txt')
 
 if __name__ == '__main__':
-
     app.run(debug=True)
