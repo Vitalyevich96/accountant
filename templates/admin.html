@@ -91,8 +91,8 @@
         }
 
             /* Расширяем столбец статуса */
-            .requests-table th:nth-child(7),
-            .requests-table td:nth-child(7) {
+            .requests-table th:nth-child(6),
+            .requests-table td:nth-child(6) {
                 min-width: 140px;
                 white-space: nowrap;
             }
@@ -372,16 +372,16 @@
         }
 
         /* На мобильных уменьшаем минимальную ширину столбца статуса */
-        .requests-table th:nth-child(7),
-        .requests-table td:nth-child(7) {
+        .requests-table th:nth-child(6),
+        .requests-table td:nth-child(6) {
             min-width: 120px;
         }
     }
 
     @media(max-width: 480px) {
         /* На очень маленьких экранах делаем еще меньше */
-        .requests-table th:nth-child(7),
-        .requests-table td:nth-child(7) {
+        .requests-table th:nth-child(6),
+        .requests-table td:nth-child(6) {
             min-width: 100px;
         }
     }
@@ -430,7 +430,6 @@
 <table class="requests-table">
     <thead>
         <tr>
-            <th>ID</th>
             <th>Имя</th>
             <th>Телефон</th>
             <th>Email</th>
@@ -443,7 +442,6 @@
     <tbody>
         {% for req in requests %}
         <tr class="clickable-row" data-request='{{ req | tojson | safe }}'>
-            <td><strong>#{{ req.id }}</strong></td>
             <td>{{ req.name }}</td>
             <td>{{ req.phone }}</td>
             <td>{{ req.email }}</td>
@@ -479,7 +477,7 @@
                     {% endif %}
 
                     <form method="POST" action="/admin/delete/{{ req.id }}" style="display: inline;"
-                          onsubmit="return confirm('Удалить заявку #{{ req.id }}?')">
+                          onsubmit="return confirm('Удалить заявку от {{ req.name }}?')">
                         <button type="submit" class="btn-small btn-delete" onclick="event.stopPropagation()">Удалить</button>
                     </form>
                 </div>
@@ -501,7 +499,7 @@
     <div class="modal-content">
         <button class="modal-close" onclick="closeRequestModal()">×</button>
         <div class="modal-header">
-            <h3>Заявка #<span id="modalRequestId"></span></h3>
+            <h3>Заявка от <span id="modalName"></span></h3>
             <div id="modalRequestStatus"></div>
         </div>
 
@@ -557,13 +555,12 @@
             const request = JSON.parse(rowElement.getAttribute('data-request'));
 
             // Заполняем модальное окно данными
-            document.getElementById('modalRequestId').textContent = request.id;
             document.getElementById('modalName').textContent = request.name;
             document.getElementById('modalEmail').textContent = request.email;
             document.getElementById('modalPhone').textContent = request.phone;
 
             // Получаем название услуги из соответствующей ячейки таблицы
-            const serviceCell = rowElement.cells[4]; // 5-я ячейка (индекс 4) - услуга
+            const serviceCell = rowElement.cells[3]; // 4-я ячейка (индекс 3) - услуга
             document.getElementById('modalService').textContent = serviceCell.textContent.trim();
 
             document.getElementById('modalCompanyType').textContent = request.company_type || 'Не указано';
