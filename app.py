@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify, send_from_directory
 import json
 import os
 from datetime import datetime, timedelta
@@ -89,7 +89,6 @@ def load_all_requests():
                 all_requests.extend(month_requests)
     
     return all_requests
-
 
 def save_requests(requests_list, year=None, month=None):
     """Сохранить заявки в файл"""
@@ -276,6 +275,7 @@ def admin_panel():
                          stats=stats,
                          status_filter=status_filter,
                          services=SERVICES)
+
 @app.route('/admin/delete/<int:request_id>', methods=['POST'])
 @login_required
 def delete_request(request_id):
@@ -435,8 +435,6 @@ def api_stats():
     
     return jsonify(stats)
 
-from flask import send_from_directory
-
 # Добавьте этот маршрут для favicon
 @app.route('/favicon.ico')
 def favicon():
@@ -463,18 +461,16 @@ def internal_error(error):
     </html>
     """, 500
 
-from flask import send_from_directory
-
 @app.route('/googleddd09674c4d97235.html')
 def google_verification():
     return send_from_directory('.', 'googleddd09674c4d97235.html')
 
 @app.route('/yandex_d94254384d1d67c8.html')
-def yandex_verification():
+def yandex_verification_d94254384d1d67c8():
     return send_from_directory('.', 'yandex_d94254384d1d67c8.html')
 
 @app.route('/yandex_c93958d7537cbd61.html')
-def yandex_verification():
+def yandex_verification_c93958d7537cbd61():
     return send_from_directory('.', 'yandex_c93958d7537cbd61.html')
 
 @app.route('/sitemap.xml')
@@ -487,4 +483,3 @@ def robots():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
