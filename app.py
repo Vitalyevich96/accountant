@@ -473,6 +473,10 @@ def google_verification():
 def yandex_verification():
     return send_from_directory('.', 'yandex_d94254384d1d67c8.html')
 
+@app.route('/yandex_c93958d7537cbd61.html')
+def yandex_verification():
+    return send_from_directory('.', 'yandex_c93958d7537cbd61.html')
+
 @app.route('/sitemap.xml')
 def sitemap():
     return send_from_directory('.', 'sitemap.xml')
@@ -483,3 +487,4 @@ def robots():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
