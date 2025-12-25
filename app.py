@@ -56,7 +56,7 @@ DATABASE_URL = os.environ.get('POSTGRES_URL', 'postgresql://neondb_owner:npg_EDz
 ADMIN_LOGIN = 'admin'
 ADMIN_PASSWORD = 'admin1802'
 
-TELEGRAM_BOT_TOKEN = '7561142289:AAFVFusO4EQqxsz4-oDJjVHUPEfhIarlAcs'
+TELEGRAM_BOT_TOKEN = '7974465093:AAEtBv5EJKmROctYEwmvOps5soDHFgyk5Bg'
 
 def set_telegram_webhook():
     """Настроить webhook для Telegram бота с повторными попытками"""
